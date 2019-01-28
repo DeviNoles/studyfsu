@@ -23,8 +23,7 @@ getUserID(){
     return user.uid
   }   else {
 // No user is signed in.
-console.log(user.user.uid)
-console.log('ID WORKS TO DB')
+console.log('ERROR! CANT AUTHORIZE TO ADD CLASS')
 }
 }
 
@@ -44,8 +43,8 @@ console.log('ID WORKS TO DB')
 add(data){
   var id = this.getUserID();
   var text = data
-
-  database.ref('class_enrollments/' + data).set({
+  var update = []
+  database.ref('class_enrollments/' + data).update({
   [id]: true
   });
 
@@ -57,12 +56,31 @@ add(data){
   var ref = database.ref('class_enrollments/' + data);
 
   // Attach an asynchronous callback to read the data at posts reference
-  ref.on("value", function(data) {
+  ref.on("value",
+
+  function(data) {
     var studentsInClass = data.val();
     var keys = Object.keys(studentsInClass);
-    console.log(keys);
 
-    }, function (errorObject) {
+    var i = 0;
+    keys.forEach(function(key) {
+
+      if (key != id){
+        database.ref('possible_matches/' + id).update({
+        [key]: true
+
+        });
+        database.ref('possible_matches/' + key).update({
+        [id]: true
+
+        });
+        console.log(key);
+      }
+
+
+});
+},
+function (errorObject) {
       console.log("The read failed: " + errorObject.code);
     });
   }

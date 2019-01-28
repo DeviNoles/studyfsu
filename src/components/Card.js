@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {StyleSheet,View, Image, KeyboardAvoidingView, Text} from 'react-native';
+import {StyleSheet,View, Image, KeyboardAvoidingView, Text, TextInput, Button} from 'react-native';
 
 import { createStackNavigator,createAppContainer } from "react-navigation";
 
@@ -8,12 +8,15 @@ import Swiper from 'react-native-swiper';
 import firebase from "firebase";
 
 var db = firebase.database();
-
+var randomUser
 export default class Card extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {currentUser: firebase.auth().currentUser}
+    this.state = {
+      currentUser: this.getUserID(),
+      currentRandomUser: ''
+    }
   }
 
   getUserID(){
@@ -30,29 +33,51 @@ export default class Card extends Component {
   }
 
 
+loadRandomCard(){
+  var ref = db.ref('possible_matches/' + this.state.currentUser);
+
+  // Attach an asynchronous callback to read the data at posts reference
+  ref.on("value",
+
+  function(data) {
+    var allStudents = data.val();
+    var keys = Object.keys(allStudents);
+    var i = 0;
+    randomUser = keys[Math.floor(Math.random()*keys.length)];
+
+    console.log('Random User: ' +  randomUser)
+
+},
+function (errorObject) {
+      console.log("The read failed: " + errorObject.code);
+    });
+  
+    return randomUser;
+}
+
+matched(){
+  db.ref('matched/' + this.state.currentUser).update({
+  [this.state.currentRandomUser]: true
+
+  });
+}
 
 
-
-
-  loadRandomCard(){
-    const id = this.getUserID();
-    var ref = db.ref('student_enrollments/' + id);
-
-    // Attach an asynchronous callback to read the data at our posts reference
-    ref.on("value", function(data) {
-  console.log(data.val());
-  }, function (errorObject) {
-  console.log("The read failed: " + errorObject.code);
-});
-
-
-  }
 
   render() {
     return (
       <View>
-        {this.loadRandomCard()}
-        <Text>MATCH SCREEN</Text>
+      {this.loadRandomCard()}
+      <Button
+   onPress={() => this.loadRandomCard()}
+   title="Match"
+   color="#841584"
+ />
+ <Button
+onPress={() => this.loadRandomCard()}
+title="Decline"
+color="#841584"
+/>
         </View>
 
 
