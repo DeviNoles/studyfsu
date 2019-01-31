@@ -5,12 +5,12 @@ import {StyleSheet,View, Image, KeyboardAvoidingView} from 'react-native';
 import { NavigationActions } from 'react-navigation';
 
 import LoginForm from './LoginForm';
+import Registration from './Registration';
 
-export default class LoginScreen extends Component {
+export default class RegistrationScreen extends Component {
   constructor() {
          super();
 
-         this.navLogin= this.navLogin.bind(this);
          this.regLogin= this.regLogin.bind(this);
      }
      navLogin(screen) {
@@ -20,19 +20,15 @@ export default class LoginScreen extends Component {
     }
     regLogin(screen){
 
-      this.props.navigation.navigate('Registration')
+      this.props.navigation.navigate('Login')
     }
-
   render() {
     return (
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
       <View style={styles.container}>
-      <View style={styles.LogoContainer}>
-      <Image style={styles.Logo} source={require('../images/fsu.png')}/>
-      </View>
 
-      <LoginForm
-      navLogin={this.navLogin}
+
+      <Registration
       regLogin={this.regLogin}
       />
 
@@ -45,7 +41,8 @@ export default class LoginScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgb(120,47,65)'
+    backgroundColor: 'rgb(120,47,65)',
+    justifyContent: 'center',
   },
   LogoContainer:{
     alignItems:'center',

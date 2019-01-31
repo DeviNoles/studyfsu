@@ -48,27 +48,9 @@ loginUser = (email, password) => {
 
 }
 
-signUpUser = (email, password) => {
+signUpUser = () => {
+  this.props.regLogin('Registration');
 
-
-    auth.createUserWithEmailAndPassword(email, password)
-    .then(function(data){
-
-
-      database.ref('users/' + data.user.uid).set({
-      name: "Test",
-      major: "Computer Science",
-      email: email,
-      password: password,
-      userLiked: {},
-      userSwiped: {},
-      userSeen: {},
-      });
-
-  //Here if you want you can sign in the user
-}).catch(function(error) {
-    //Handle error
-});
 
 
 }
@@ -108,9 +90,9 @@ signUpUser = (email, password) => {
 
 
       <TouchableOpacity
-      style={styles.ButtonContainer}
+      style={styles.SignUpButtonContainer}
 
-      onPress={() => this.signUpUser(this.state.email, this.state.password)}
+      onPress={() => this.signUpUser()}
       >
         <Text style = {styles.ButtonText}>SIGN UP</Text>
       </TouchableOpacity>
@@ -125,8 +107,11 @@ signUpUser = (email, password) => {
 const styles = StyleSheet.create({
   container: {
     padding: 20,
+    marginTop: 200,
     backgroundColor: 'rgb(120,47,65)',
-    paddingBottom: 100
+    paddingBottom: 100,
+    flexDirection: 'column',
+    flex: 1
   },
   input:{
     height: 40,
@@ -136,12 +121,19 @@ const styles = StyleSheet.create({
   },
   ButtonContainer:{
     backgroundColor: 'rgb(206,184,136)',
-    paddingVertical: 15
-  },
+    paddingVertical: 15,
+    marginBottom: 30,
+    justifyContent: 'center',
+    borderRadius: 180
 
-  ButtonContainer:{
+
+  },
+  SignUpButtonContainer:{
     backgroundColor: 'rgb(206,184,136)',
-    paddingVertical: 15
+    paddingVertical: 15,
+    justifyContent: 'center',
+    borderRadius: 180
+
   },
   ButtonText:{
     textAlign:'center'

@@ -18,7 +18,11 @@ export default class Card extends Component {
       currentRandomUser: ''
     }
   }
+  
+  regLogin(screen){
 
+    this.props.navigation.navigate('Login')
+  }
   getUserID(){
     var user = firebase.auth().currentUser;
 
@@ -41,44 +45,72 @@ loadRandomCard(){
 
   function(data) {
     var allStudents = data.val();
-    var keys = Object.keys(allStudents);
-    var i = 0;
-    randomUser = keys[Math.floor(Math.random()*keys.length)];
+    try {
+      var keys = Object.keys(allStudents);
 
-    console.log('Random User: ' +  randomUser)
+      randomUser = keys[Math.floor(Math.random()*keys.length)];
+
+      console.log('Random User: ' +  randomUser)
+    } catch (e) {
+       console.log('No Matches Available')
+    } finally {
+
+    }
+
 
 },
 function (errorObject) {
       console.log("The read failed: " + errorObject.code);
     });
 
-    return randomUser;
+
 }
 
 matched(){
+
+
   db.ref('matched/' + this.state.currentUser).update({
-  [this.state.currentRandomUser]: true
+  [randomUser]: true
 
   });
+  //check if match
+  firebase.database().ref(`matched/${randomUser}/${this.state.currentUser}`).once("value", snapshot => {
+     if (snapshot.exists()){
+        console.log("MATCHED ON BOTH SIDES");
+        const email = snapshot.val();
+        firebase.database().ref(`possible_matches/${this.state.currentUser}/${randomUser}`).remove();
+        this.loadRandomCard();
+      }
+      else{
+        firebase.database().ref(`possible_matches/${this.state.currentUser}/${randomUser}`).remove();
+        this.loadRandomCard();
+      }
+  });
+
 }
 
+decline(){
+  firebase.database().ref(`possible_matches/${this.state.currentUser}/${randomUser}`).remove();
+  this.loadRandomCard();
+}
 
 
   render() {
     return (
       <View>
-      {this.loadRandomCard()}
+      <Text>
+      </Text>
       <Button
-   onPress={() => this.loadRandomCard()}
+   onPress={() => this.matched()}
    title="Match"
    color="#841584"
  />
- <Button
-onPress={() => this.loadRandomCard()}
-title="Decline"
-color="#841584"
+    <Button
+    onPress={() => this.decline()}
+    title="Decline"
+    color="#841584"
 />
-        </View>
+      </View>
 
 
     );

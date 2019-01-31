@@ -4,6 +4,7 @@ import { createStackNavigator, createAppContainer } from 'react-navigation';
 import LoginScreen from './LoginScreen';
 import Home from './Home';
 import Card from './Card'
+import RegistrationScreen from './RegistrationScreen';
 
 
 import firebase from "firebase";
@@ -15,7 +16,11 @@ const RootStackNavigator = createStackNavigator(
     },
     Home: {
       screen: Home
-    }
+    },
+    Registration: {
+      screen: RegistrationScreen
+    },
+
   },
   {
     initialRouteName: 'Login',
