@@ -12,10 +12,22 @@ import firebase from "firebase";
 const RootStackNavigator = createStackNavigator(
   {
     Login: {
-      screen: LoginScreen
+      screen: LoginScreen,
+      navigationOptions: {
+     header: null,
+   },
+
     },
     Home: {
-      screen: Home
+      screen: Home,
+      headerStyle:{
+          backgroundColor: '#782f41'
+      },
+
+      navigationOptions: {
+
+     headerTitle: 'StudyBuddy',
+   },
     },
     Registration: {
       screen: RegistrationScreen
@@ -24,9 +36,7 @@ const RootStackNavigator = createStackNavigator(
   },
   {
     initialRouteName: 'Login',
-    headerMode: 'none',
-    navigationOptions: {
-    }
+
   }
 );
 

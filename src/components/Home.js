@@ -32,6 +32,10 @@ class TitleText extends React.Component {
 
 class Home extends React.Component {
 
+  constructor(props) {
+  super(props);
+
+  }
   viewStyle() {
     return {
       flex: 1,
@@ -80,6 +84,10 @@ class Home extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1
+  },
+  profile:{
+    backgroundColor: 'rgb(120,47,65)',
+    height: 300
   }
 });
 

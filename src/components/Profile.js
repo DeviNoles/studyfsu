@@ -8,27 +8,44 @@ import AddClass from './AddClass';
 import firebase from "firebase";
 
 var database = firebase.database();
+var name
 export default class HomeProfile extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentUser: null,
+      currentRandomUser: ''
+    }
+    this.getUser = this.getUser.bind(this)
+  }
 
+componentWillMount(){
+  var user = firebase.auth().currentUser;
+  if (user){
+    console.log('ID is: ' + user.uid)
+
+    var ref = database.ref('users/' + user.uid);
+    console.log(ref)
+    ref.once("value", (data) =>{
+// do some stuff once
+    console.log(data.val().name)
+    this.setState({currentUser: data.val().name})
+    console.log(this.state.currentUser)
+});
+  }
+}
   getUser(){
-    var user = firebase.auth().currentUser;
+    return this.state.currentUser
+  }
 
-    if (user) {
-      // User is signed in.
-      console.log(user.email)
-      return user.email
-    }   else {
-  // No user is signed in.
-  console.log('wtf')
-  }
-  }
 
   render() {
 
     return (
 
   <View style={styles.container}>
+
       <View style={styles.avi}>
       <Avatar
         size="xlarge"
@@ -36,10 +53,11 @@ export default class HomeProfile extends Component {
         title="DM"
         activeOpacity={0.7}
       />
+          <Text>{this.getUser()}</Text>
       </View>
 
 
-      <Text>{this.getUser()}</Text>
+
       <AddClass/>
 
 </View>

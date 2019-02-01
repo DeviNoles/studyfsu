@@ -18,7 +18,7 @@ export default class Card extends Component {
       currentRandomUser: ''
     }
   }
-  
+
   regLogin(screen){
 
     this.props.navigation.navigate('Login')
@@ -35,7 +35,6 @@ export default class Card extends Component {
   console.log('ERROR!')
   }
   }
-
 
 loadRandomCard(){
   var ref = db.ref('possible_matches/' + this.state.currentUser);

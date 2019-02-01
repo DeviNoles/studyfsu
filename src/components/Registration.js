@@ -49,9 +49,7 @@ async editAvi(){
       }
 
     };
-loginUser(){
-  this.props.regLogin('Login');
-}
+
 
 signUpUser = (name, major, email, password, passwordConfirm) => {
 
@@ -144,12 +142,7 @@ signUpUser = (name, major, email, password, passwordConfirm) => {
         <Text style = {styles.ButtonText}>SIGN UP</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity
-      style={styles.LoginButtonContainer}
-      onPress={() => this.loginUser()}
-      >
-        <Text style = {styles.ButtonText}>LOGIN</Text>
-      </TouchableOpacity>
+
 
 
       </View>
