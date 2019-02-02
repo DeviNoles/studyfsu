@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {StyleSheet,View, Image, KeyboardAvoidingView, Text} from 'react-native';
+import {StyleSheet,View, Image, KeyboardAvoidingView, Text, Dimensions} from 'react-native';
 
 import { createStackNavigator,createAppContainer } from "react-navigation";
 import { Avatar } from 'react-native-elements';
@@ -9,16 +9,25 @@ import firebase from "firebase";
 
 var database = firebase.database();
 var name
+
 export default class HomeProfile extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
       currentUser: null,
-      currentRandomUser: ''
+      currentRandomUser: '',
+      major: null
     }
-    this.getUser = this.getUser.bind(this)
+    this.getUserName = this.getUserName.bind(this)
+    this.getMajor = this.getMajor.bind(this)
   }
+
+
+// based on iphone 5s's scale
+
+
+
 
 componentWillMount(){
   var user = firebase.auth().currentUser;
@@ -29,14 +38,19 @@ componentWillMount(){
     console.log(ref)
     ref.once("value", (data) =>{
 // do some stuff once
-    console.log(data.val().name)
+
     this.setState({currentUser: data.val().name})
-    console.log(this.state.currentUser)
+    this.setState({major: data.val().major})
+
 });
   }
 }
-  getUser(){
+  getUserName(){
     return this.state.currentUser
+  }
+
+  getMajor(){
+    return this.state.major
   }
 
 
@@ -53,7 +67,10 @@ componentWillMount(){
         title="DM"
         activeOpacity={0.7}
       />
-          <Text>{this.getUser()}</Text>
+      <View style={styles.userName}>
+          <Text>{this.getUserName()}</Text>
+          <Text>{this.getMajor()}</Text>
+          </View>
       </View>
 
 
@@ -69,13 +86,17 @@ componentWillMount(){
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    paddingBottom:100
+    paddingBottom:100,
+
 
   },
   avi:{
-    paddingVertical: 80
-  },
-  buttons:{
+    paddingVertical: 80,
 
+  },
+  userName:{
+    margin: 15,
+    alignItems: 'center',
+    color:'#FF9800'
   }
 });
