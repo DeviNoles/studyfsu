@@ -11,7 +11,6 @@ var database = firebase.database();
 var name
 
 export default class HomeProfile extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -22,12 +21,6 @@ export default class HomeProfile extends Component {
     this.getUserName = this.getUserName.bind(this)
     this.getMajor = this.getMajor.bind(this)
   }
-
-
-// based on iphone 5s's scale
-
-
-
 
 componentWillMount(){
   var user = firebase.auth().currentUser;
@@ -97,6 +90,6 @@ const styles = StyleSheet.create({
   userName:{
     margin: 15,
     alignItems: 'center',
-    color:'#FF9800'
+    color:'white !important'
   }
 });

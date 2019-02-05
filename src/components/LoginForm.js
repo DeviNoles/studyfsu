@@ -32,7 +32,7 @@ export default class LoginForm extends React.Component {
   }
 
 loginUser = (email, password) => {
-
+  console.log('Logging In...')
     auth.signInWithEmailAndPassword(email, password)
         .then(user => {
             // Sign in success

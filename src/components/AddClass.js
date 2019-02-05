@@ -22,9 +22,9 @@ getUserID(){
     console.log(user.email)
     return user.uid
   }   else {
-// No user is signed in.
-console.log('ERROR! CANT AUTHORIZE TO ADD CLASS')
-}
+  // No user is signed in.
+  console.log('ERROR! CANT AUTHORIZE TO ADD CLASS')
+  }
 }
 
   getUserEmail(){
@@ -39,7 +39,6 @@ console.log('ERROR! CANT AUTHORIZE TO ADD CLASS')
   console.log('wtf')
   }
   }
-
 add(data){
   var id = this.getUserID();
   var text = data

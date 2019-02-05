@@ -12,7 +12,9 @@ export default class RegistrationScreen extends Component {
          super();
 
          this.regLogin= this.regLogin.bind(this);
-     }
+  }
+
+
      navLogin(screen) {
         // do whatever you need
         this.props.navigation.navigate('Home');
@@ -22,6 +24,9 @@ export default class RegistrationScreen extends Component {
 
       this.props.navigation.navigate('Login')
     }
+
+  
+
   render() {
     return (
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
