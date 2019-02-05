@@ -54,12 +54,9 @@ getRandomID = (callback)=>{
 function (errorObject) {
       console.log("The read failed: " + errorObject.code);
     });
-
-
 }
 componentWillMount(){
   this.getRandomID(this.setData);
-
 }
 setData = () => {
   console.log('When setData is called' + this.state.randomID)
@@ -70,12 +67,7 @@ setData = () => {
   console.log(data)
   this.setState({randomName: data.val().name})
   this.setState({randomMajor: data.val().major})
-
-
-
 });
-
-
 }
 getRandomName = () =>{
   console.log(this.state.randomName)
@@ -111,8 +103,11 @@ decline(){
 }
   render() {
     return (
-      <View>
+      <View style={styles.randomInfo}>
       <Text>
+      Here
+      {this.getRandomName()}
+      {this.getRandomMajor()}
       </Text>
       <Button
    onPress={() => this.matched()}
@@ -134,6 +129,9 @@ decline(){
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1
+  },
+  randomInfo:{
     flex: 1
   }
 });

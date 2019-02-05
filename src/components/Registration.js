@@ -27,11 +27,11 @@ export default class Registration extends React.Component {
     super(props)
 
     this.state = ({
-      avi: '',
-      fullname: '',
-      email: '',
-      password: '',
-      passwordConfirm: ''
+      avi: null,
+      fullname: null,
+      email: null,
+      password: null,
+      passwordConfirm: null
     })
   }
 
@@ -45,7 +45,7 @@ async editAvi(){
       });
     if (!status.cancelled){
         this.setState({ avi: status.uri });
-        console.log(status.uri)
+        console.log(avi)
       }
 
     };

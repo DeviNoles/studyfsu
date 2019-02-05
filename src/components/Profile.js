@@ -34,6 +34,7 @@ componentWillMount(){
 
     this.setState({currentUser: data.val().name})
     this.setState({major: data.val().major})
+  
 
 });
   }
