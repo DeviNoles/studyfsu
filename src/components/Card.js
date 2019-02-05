@@ -70,20 +70,20 @@ setData = () => {
   console.log(data)
   this.setState({randomName: data.val().name})
   this.setState({randomMajor: data.val().major})
-  console.log(this.state.randomName)
-  console.log(this.state.randomMajor)
+
 
 
 });
 
 
 }
-getRandomMajor = () =>{
+getRandomName = () =>{
+  console.log(this.state.randomName)
 
   return this.state.randomName
 }
 getRandomMajor = () =>{
-
+console.log(this.state.randomMajor)
   return this.state.randomMajor
 }
 matched(){
