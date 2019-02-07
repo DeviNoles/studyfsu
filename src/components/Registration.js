@@ -23,25 +23,16 @@ export default class Registration extends React.Component {
   constructor(props){
     super(props)
     this.state = ({
-      avi: null,
       fullname: null,
       email: null,
       password: null,
       passwordConfirm: null,
-      currentID: null
+      currentID: null,
+      avi: '',
+      image: ''
     })
   }
 
-editAvi = async () => {
-      await Permissions.askAsync(Permissions.CAMERA_ROLL);
-      const { cancelled, uri } = await ImagePicker.launchImageLibraryAsync({
-        allowsEditing: true,
-      });
-      if (!cancelled) {
-        this.setState({ image: uri });
-}
-      console.log('The image is' + this.state.image)
-    };
 
 signUpUser = (name, major, email, password, passwordConfirm, callback) => {
       auth.createUserWithEmailAndPassword(email, password)
@@ -57,32 +48,52 @@ signUpUser = (name, major, email, password, passwordConfirm, callback) => {
         this.setState({currentID: data.user.uid})
         console.log('ID IS: ' + this.state.currentID)
         console.log('Account Created')
+        callback()
+        console.log('Done')
     })
 
 }
 
-uploadImage = async (uri, imageName) => {
-  // Create file metadata including the content type
-  var metadata = {
-    contentType: 'image/jpeg',
-  }
-  // Points to the root reference
-  var storageRef = firebase.storage().ref();
-
-  // Points to 'images'
-  const response = await fetch(uri);
-  const blob = await response.blob();
-
-  var ref = storageRef.child('images/' + this.state.currentID);
-  const photo = await ref.put(blob, metadata);
-    console.log('This is the blob: ' + blob)
-    return photo
+editAvi = async () => {
+    console.log('wtf')
+      await Permissions.askAsync(Permissions.CAMERA_ROLL);
+      const { cancelled, uri } = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: true,
+      });
+      if (!cancelled) {
+        this.setState({ image: uri });
 }
+      console.log('The image is' + this.state.image)
+    };
 
+
+uploadImage = async () => {
+  var uri = this.state.image
+  // Why XMLHttpRequest? See:
+// https://github.com/expo/expo/issues/2402#issuecomment-443726662
+const blob = await new Promise((resolve, reject) => {
+  const xhr = new XMLHttpRequest();
+  xhr.onload = function() {
+    resolve(xhr.response);
+  };
+  xhr.onerror = function(e) {
+    console.log(e);
+    reject(new TypeError('Network request failed'));
+  };
+  xhr.responseType = 'blob';
+  xhr.open('GET', uri, true);
+  xhr.send(null);
+});
+console.log(JSON.stringify(blob, null, 2))
+
+var ref = firebase.storage().ref().child("images/" + this.state.currentID);
+ref.put(blob);
+console.log('After')
+//Done with the blob, close and release it
+}
 
   render() {
     return (
-
       <View style={styles.container}>
       <StatusBar
       barStyle = "light-content"
@@ -91,7 +102,7 @@ uploadImage = async (uri, imageName) => {
       <Avatar
         size="xlarge"
         rounded
-        icon={{name: 'user', type: 'font-awesome'}}
+        source={this.state.image}
         onPress={() => this.editAvi()}
         showEditButton
         activeOpacity={0.7}

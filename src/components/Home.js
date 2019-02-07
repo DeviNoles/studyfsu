@@ -88,6 +88,10 @@ const styles = StyleSheet.create({
   profile:{
     backgroundColor: 'rgb(120,47,65)',
     height: 300
+  },
+  bio:{
+    backgroundColor: 'rgb(206,184,136)',
+    height: 300
   }
 });
 

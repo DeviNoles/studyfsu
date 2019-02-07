@@ -20,13 +20,8 @@ const RootStackNavigator = createStackNavigator(
     },
     Home: {
       screen: Home,
-      headerStyle:{
-          backgroundColor: '#782f41'
-      },
-
       navigationOptions: {
-
-     headerTitle: 'StudyBuddy',
+     headerTitle: 'MeetFSU',
    },
     },
     Registration: {
@@ -36,40 +31,29 @@ const RootStackNavigator = createStackNavigator(
   },
   {
     initialRouteName: 'Login',
-
   }
 );
-
 const HomeNavigator = createStackNavigator(
   {
   Home: Home
-
 },
 {
     initialRouteName: 'Home',
   }
 );
-
-
 const RootContainer = createAppContainer(RootStackNavigator);
 const HomeContainer = createAppContainer(HomeNavigator);
-
 export default class Main extends Component {
   static navigationOptions = {
       header: null
     };
   constructor(props) {
   super(props);
-
 }
-
-
   render() {
       return (
         <View style={styles.container}>
-
       <RootContainer/>
-
         </View>
       );
 }
