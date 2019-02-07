@@ -64,18 +64,15 @@ setData = () => {
   console.log(ref)
   ref.once("value", (data) =>{
 // do some stuff once
-  console.log(data)
   this.setState({randomName: data.val().name})
   this.setState({randomMajor: data.val().major})
 });
 }
 getRandomName = () =>{
-  console.log(this.state.randomName)
 
   return this.state.randomName
 }
 getRandomMajor = () =>{
-console.log(this.state.randomMajor)
   return this.state.randomMajor
 }
 matched(){
@@ -83,16 +80,16 @@ matched(){
   [randomUser]: true
   });
   //check if match
-  firebase.database().ref(`matched/${randomUser}/${this.state.currentUser}`).once("value", snapshot => {
+  firebase.database().ref(`matched/${this.state.randomID}/${this.state.currentUser}`).once("value", snapshot => {
      if (snapshot.exists())
      {
         console.log("MATCHED ON BOTH SIDES");
         const email = snapshot.val();
-        firebase.database().ref(`possible_matches/${this.state.currentUser}/${randomUser}`).remove();
+        firebase.database().ref(`possible_matches/${this.state.currentUser}/${this.state.randomID}`).remove();
         this.getRandomID();
       }
       else{
-        firebase.database().ref(`possible_matches/${this.state.currentUser}/${randomUser}`).remove();
+        firebase.database().ref(`possible_matches/${this.state.currentUser}/${this.state.randomID}`).remove();
         this.getRandomID();
       }
   });

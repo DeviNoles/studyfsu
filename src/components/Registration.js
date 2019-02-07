@@ -56,7 +56,6 @@ signUpUser = (name, major, email, password, passwordConfirm, callback) => {
 
         this.setState({currentID: data.user.uid})
         console.log('ID IS: ' + this.state.currentID)
-        this.uploadImage()
         console.log('Account Created')
     })
 
@@ -67,22 +66,17 @@ uploadImage = async (uri, imageName) => {
   var metadata = {
     contentType: 'image/jpeg',
   }
+  // Points to the root reference
+  var storageRef = firebase.storage().ref();
 
-  var firebaseStorageRef = firebase.storage().ref(ref);
-     const imageRef = firebaseStorageRef.child(imageName + ".jpeg");
+  // Points to 'images'
+  const response = await fetch(uri);
+  const blob = await response.blob();
 
-     LOG.debug("FirebaseStorageService :: imageRef ", {imageRef:imageRef});
-
-
-     imageRef.putFile(uri, {contentType: 'image/jpeg'}).then(function(){
-         return imageRef.getDownloadURL();
-     }).then(function(url){
-         LOG.debug("Image url", {url:url});
-         onSuccess(url);
-     }).catch(function(error){
-         LOG.error("Error while saving the image.. ", error);
-         onError(error);
-     });
+  var ref = storageRef.child('images/' + this.state.currentID);
+  const photo = await ref.put(blob, metadata);
+    console.log('This is the blob: ' + blob)
+    return photo
 }
 
 
