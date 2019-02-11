@@ -55,7 +55,6 @@ signUpUser = (name, major, email, password, passwordConfirm, callback) => {
 }
 
 editAvi = async () => {
-    console.log('wtf')
       await Permissions.askAsync(Permissions.CAMERA_ROLL);
       const { cancelled, uri } = await ImagePicker.launchImageLibraryAsync({
         allowsEditing: true,

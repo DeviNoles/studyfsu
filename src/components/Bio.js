@@ -5,11 +5,10 @@ import { createStackNavigator,createAppContainer } from "react-navigation";
 import { Avatar } from 'react-native-elements';
 import { Container, Row, Col, Grid } from 'react-bootstrap';
 import AddClass from './AddClass';
-import Bio from './Bio';
 import firebase from "firebase";
 var database = firebase.database();
 var name
-export default class HomeProfile extends Component {
+export default class Bio extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -54,23 +53,21 @@ getAvi = ()=>{
   render() {
     return (
   <View style={styles.container}>
-  <View style={styles.profile}>
-      <View style={styles.avi}>
-      <Avatar
-        size="xlarge"
-        rounded
-        activeOpacity={0.7}
-        source={{uri:this.state.avi}}
-        onPress={() => this.editAvi()}
-        showEditButton
-      />
-      <View style={styles.userName}>
-          <Text>{this.getUserName()}</Text>
-          <Text>{this.getMajor()}</Text>
-          </View>
-</View>
+      <View style={styles.BioTitle}>
+      <Text>Bio</Text>
       </View>
-      <Bio/>
+      <TextInput
+        multiline={true}
+        onChangeText={(text) => {
+            this.setState({ bio: text })
+        }}
+        onContentSizeChange={(event) => {
+            this.setState({ height: event.nativeEvent.contentSize.height })
+        }}
+        style={[styles.default, {height: Math.max(35, this.state.height)}]}
+        value={this.state.bio}
+      />
+
 
 </View>
     );
@@ -80,22 +77,12 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     paddingBottom:100,
-    flex: 2
+    backgroundColor:'rgb(206,184,136)'
   },
-  avi:{
-    paddingVertical: 80,
-  },
-  userName:{
-    margin: 15,
-    alignItems: 'center',
-    color:'white !important'
-  },
-  profile:{
-    backgroundColor: 'rgb(120,47,65)',
-    height: 300
-  },
-  bio:{
-    backgroundColor: 'rgb(206,184,136)',
-    height: 300
+
+  BioTitle:{
+    alignItems:'center',
+    justifyContent:'center'
   }
+
 });
