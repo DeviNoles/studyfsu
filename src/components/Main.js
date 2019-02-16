@@ -4,6 +4,7 @@ import { createStackNavigator, createAppContainer } from 'react-navigation';
 import LoginScreen from './LoginScreen';
 import Home from './Home';
 import Card from './Card'
+import ChatScreen from './ChatScreen'
 import RegistrationScreen from './RegistrationScreen';
 
 
@@ -15,34 +16,30 @@ const RootStackNavigator = createStackNavigator(
       screen: LoginScreen,
       navigationOptions: {
      header: null,
-   },
+   },},
 
-    },
     Home: {
       screen: Home,
       navigationOptions: {
-     headerTitle: 'MeetFSU',
+        headerStyle: {
+     backgroundColor: '#CEB888',
    },
-    },
+     headerTitle: 'MeetFSU',
+   },},
+
+
     Registration: {
       screen: RegistrationScreen
     },
-
   },
+
   {
     initialRouteName: 'Login',
   }
 );
-const HomeNavigator = createStackNavigator(
-  {
-  Home: Home
-},
-{
-    initialRouteName: 'Home',
-  }
-);
+
 const RootContainer = createAppContainer(RootStackNavigator);
-const HomeContainer = createAppContainer(HomeNavigator);
+
 export default class Main extends Component {
   static navigationOptions = {
       header: null

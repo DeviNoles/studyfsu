@@ -15,7 +15,6 @@ export default class Card extends Component {
       randomID: '',
       randomavi:''
     }
-
   }
   regLogin(screen){
     this.props.navigation.navigate('Login')
@@ -53,7 +52,7 @@ getRandomID = (callbac)=>{
        console.log(e)
     }
     finally{
-  
+
     }
 },
 function (errorObject) {
