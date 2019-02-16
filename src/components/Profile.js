@@ -71,6 +71,7 @@ getAvi = ()=>{
 </View>
       </View>
       <Bio/>
+      <AddClass/>
 
 </View>
     );

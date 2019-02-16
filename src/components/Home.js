@@ -4,6 +4,7 @@ import {StyleSheet,View, Image, KeyboardAvoidingView, Text} from 'react-native';
 import Swiper from 'react-native-swiper'
 import { createStackNavigator,createAppContainer } from "react-navigation";
 import Card from './Card';
+import ChatScreen from './ChatScreen';
 import Profile from './Profile';
 
 import firebase from "firebase";
@@ -72,7 +73,7 @@ class Home extends React.Component {
         </Swiper>
 
         <View style={this.viewStyle()}>
-          <Text>CHAT SCREEN</Text>
+          <ChatScreen/>
         </View>
       </Swiper>
 

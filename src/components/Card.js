@@ -12,7 +12,8 @@ export default class Card extends Component {
       currentUser: this.getUserID(),
       randomMajor: null,
       randomName: null,
-      randomID: null
+      randomID: '',
+      randomavi:''
     }
 
   }
@@ -30,7 +31,10 @@ export default class Card extends Component {
   console.log('ERROR!')
   }
   }
-getRandomID = (callback)=>{
+
+
+
+getRandomID = (callbac)=>{
   var ref = db.ref('possible_matches/' + this.state.currentUser);
   // Attach an asynchronous callback to read the data at posts reference
   ref.on("value",
@@ -41,7 +45,7 @@ getRandomID = (callback)=>{
       randomUser = keys[Math.floor(Math.random()*keys.length)];
       console.log(randomUser)
       this.setState({randomID: randomUser})
-      callback()
+
       return this.state.randomID
 
     }
@@ -49,6 +53,7 @@ getRandomID = (callback)=>{
        console.log(e)
     }
     finally{
+  
     }
 },
 function (errorObject) {
@@ -56,8 +61,9 @@ function (errorObject) {
     });
 }
 componentWillMount(){
-  this.getRandomID(this.setData);
+  this.getRandomID();
 }
+
 setData = () => {
   console.log('When setData is called' + this.state.randomID)
   var ref = db.ref('users/' + this.state.randomID);
