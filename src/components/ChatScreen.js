@@ -18,6 +18,7 @@ import Iconz from 'react-native-vector-icons/Ionicons';
 
 var image1 = require('../images/fsu.png')
 
+var emptyConvos = []
 
 var convos = [{
   "id": 1,
@@ -127,15 +128,64 @@ export default class ChatScreen extends Component {
   }
 
   componentWillMount(){
-    this.getMatched();
+    this.getCurrentUser(this.getMatched);
   }
-  getMatched = ()=>{
-    var storage = firebase.storage().ref();
-    return firebase.database().ref('matched/' + 'UR0XIJORGzPuRmZQmZJwjZN2owP2').once('value').then(function(snapshot) {
-    console.log(snapshot.val());
-  // ...
-});
 
+  async getCurrentUser(callback){
+    var user = firebase.auth().currentUser;
+    if (user) {
+      // User is signed in.
+      await this.setState({currentUser: user.uid})
+      callback();
+      return user.uid
+    }
+  else {
+  // No user is signed in.
+  console.log('ERROR!')
+  }
+}
+getMatched = ()=>{
+
+
+    var ref = firebase.database().ref('matched/' + this.state.currentUser)
+    var cur = this.state.currentUser
+
+    ref.on('value', function(snapshot) {
+
+    snapshot.forEach((childid)=>{
+
+      var childref = firebase.database().ref('matched/' + childid.key) // reference to the matched i want to check
+
+      childref.on("value", snapshot => {
+
+         if (snapshot.exists())
+         {
+           snapshot.forEach((childchildid)=>{
+
+             if(childchildid.key == cur){
+              firebase.database().ref('users/' + childid.key).once('value').then(function(snapshot) {
+              snapshot.forEach((thischild)=>{
+                console.log(thischild.key)
+
+                console.log(thischild.val()) // what i want to pass into the message object array
+
+                
+              })
+            })
+             }
+
+           })
+          }
+          else{
+
+
+          }
+      });
+
+//////////////////
+
+})
+})
 }
   eachPic(x){
     return(

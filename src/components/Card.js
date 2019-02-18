@@ -12,9 +12,9 @@ export default class Card extends Component {
       currentUser: this.getUserID(),
       randomMajor: null,
       randomName: null,
-      randomID: '',
-      randomavi:''
+      randomID: null
     }
+
   }
   regLogin(screen){
     this.props.navigation.navigate('Login')
@@ -30,21 +30,18 @@ export default class Card extends Component {
   console.log('ERROR!')
   }
   }
-
-
-
-getRandomID = (callbac)=>{
+getRandomID(callback){
   var ref = db.ref('possible_matches/' + this.state.currentUser);
   // Attach an asynchronous callback to read the data at posts reference
   ref.on("value",
-  (data) =>{
+  async (data) =>{
     var allStudents = data.val();
     try {
       var keys = Object.keys(allStudents);
       randomUser = keys[Math.floor(Math.random()*keys.length)];
       console.log(randomUser)
-      this.setState({randomID: randomUser})
-
+      await this.setState({randomID: randomUser})
+      callback()
       return this.state.randomID
 
     }
@@ -52,7 +49,6 @@ getRandomID = (callbac)=>{
        console.log(e)
     }
     finally{
-
     }
 },
 function (errorObject) {
@@ -60,9 +56,8 @@ function (errorObject) {
     });
 }
 componentWillMount(){
-  this.getRandomID();
+  this.getRandomID(this.setData);
 }
-
 setData = () => {
   console.log('When setData is called' + this.state.randomID)
   var ref = db.ref('users/' + this.state.randomID);
@@ -80,7 +75,7 @@ getRandomName = () =>{
 getRandomMajor = () =>{
   return this.state.randomMajor
 }
-matched(){
+matched = ()=>{
   db.ref('matched/' + this.state.currentUser).update({
   [randomUser]: true
   });
@@ -99,7 +94,7 @@ matched(){
       }
   });
 }
-decline(){
+decline = ()=>{
   firebase.database().ref(`possible_matches/${this.state.currentUser}/${randomUser}`).remove();
   this.getRandomID();
 }
