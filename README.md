@@ -7,5 +7,8 @@
 ### Match with students in your classes and chat with them!
 
 ### Register for an account using a valid FSU Email.
-![Image of Login](https://raw.githubusercontent.com/DevinM6/studyfsu/master/assets/login.png)
+![](https://i.imgur.com/AXezG8N.png)
+![](https://i.imgur.com/C1jEON9.png)
+![](https://i.imgur.com/TrwsjTd.png)
+![](https://raw.githubusercontent.com/DevinM6/studyfsu/master/src/images/chats.png)
 
