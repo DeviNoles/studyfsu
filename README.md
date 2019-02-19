@@ -10,5 +10,5 @@
 ![](https://i.imgur.com/AXezG8N.png)
 ![](https://i.imgur.com/C1jEON9.png)
 ![](https://i.imgur.com/TrwsjTd.png)
-![](https://raw.githubusercontent.com/DevinM6/studyfsu/master/src/images/chats.png)
+![](https://i.imgur.com/dmoKo5c.png)
 
