@@ -219,6 +219,7 @@ getMatched = ()=>{
       placeholder="Search"
       />
       <View style={styles.matches}>
+      <Text style = {{color:'#da533c', fontWeight:'600', fontSize:12}}>NEW MATCHES!</Text>
       <ListView
       horizontal={true}
       scrollEnabled = {false}
