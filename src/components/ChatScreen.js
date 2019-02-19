@@ -166,10 +166,10 @@ getMatched = ()=>{
               firebase.database().ref('users/' + childid.key).once('value').then(function(snapshot) {
               snapshot.forEach((thischild)=>{
                 console.log(thischild.key)
-
+                console.log(snapshot[0])
                 console.log(thischild.val()) // what i want to pass into the message object array
 
-                
+
               })
             })
              }
