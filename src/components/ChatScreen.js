@@ -149,36 +149,28 @@ getMatched = ()=>{
 
     var ref = firebase.database().ref('matched/' + this.state.currentUser)
     var cur = this.state.currentUser
-
     ref.on('value', function(snapshot) {
-
-    snapshot.forEach((childid)=>{
-
+    snapshot.forEach((childid)=>{ //for each user that ive liked
       var childref = firebase.database().ref('matched/' + childid.key) // reference to the matched i want to check
-
       childref.on("value", snapshot => {
-
          if (snapshot.exists())
          {
            snapshot.forEach((childchildid)=>{
-
              if(childchildid.key == cur){
               firebase.database().ref('users/' + childid.key).once('value').then(function(snapshot) {
               snapshot.forEach((thischild)=>{
-                console.log(thischild.key)
-                console.log(snapshot[0])
-                console.log(thischild.val()) // what i want to pass into the message object array
-
-
+                if(thischild.key=='id'){
+                  console.log(thischild.val()) // what i want to pass into the message object array
+                }
+                else if(thischild.key=='name'){
+                  console.log(thischild.val()) // what i want to pass into the message object array
+                }
+                
               })
             })
              }
 
            })
-          }
-          else{
-
-
           }
       });
 
