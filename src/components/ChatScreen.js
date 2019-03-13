@@ -130,7 +130,6 @@ export default class ChatScreen extends Component {
   componentWillMount(){
     this.getCurrentUser(this.getMatched);
   }
-
   async getCurrentUser(callback){
     var user = firebase.auth().currentUser;
     if (user) {
@@ -145,8 +144,6 @@ export default class ChatScreen extends Component {
   }
 }
 getMatched = ()=>{
-
-
     var ref = firebase.database().ref('matched/' + this.state.currentUser)
     var cur = this.state.currentUser
     ref.on('value', function(snapshot) {
@@ -165,11 +162,9 @@ getMatched = ()=>{
                 else if(thischild.key=='name'){
                   console.log(thischild.val()) // what i want to pass into the message object array
                 }
-                
               })
             })
              }
-
            })
           }
       });
