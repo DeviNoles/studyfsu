@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {StyleSheet,View, Image, KeyboardAvoidingView, Text} from 'react-native';
+import {StyleSheet,View, Image, KeyboardAvoidingView, Text, Button} from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import LoginScreen from './LoginScreen';
 import Home from './Home';
@@ -25,7 +25,24 @@ const RootStackNavigator = createStackNavigator(
      backgroundColor: '#CEB888',
    },
      headerTitle: 'MeetFSU',
-   },},
+     headerRight: (
+     <Button
+       onPress={() => alert('This is a button!')}
+       title="Add Class"
+       color="#fff"
+     />
+   ),
+   headerLeft: null,
+   headerLeft: (
+   <Button
+     onPress={() => alert('This is a button!')}
+     title="View Classes"
+     color="#fff"
+   />
+ ),
+   },
+
+ },
 
 
     Registration: {

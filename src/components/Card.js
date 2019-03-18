@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
-import {StyleSheet,View, Image, KeyboardAvoidingView, Text, TextInput, Button} from 'react-native';
-import { createStackNavigator,createAppContainer } from "react-navigation";
+import {StyleSheet,View, Image, KeyboardAvoidingView, Text, TextInput, Button, ScrollView, Dimensions} from 'react-native';
+import { createStackNavigator,createAppContainer,  } from "react-navigation";
 import Swiper from 'react-native-swiper';
 import firebase from "firebase";
 var db = firebase.database();
 var randomUser
+
+var {height, width} = Dimensions.get('window');
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import Iconz from 'react-native-vector-icons/Ionicons';
 export default class Card extends Component {
   constructor(props) {
     super(props);
@@ -57,6 +61,7 @@ function (errorObject) {
 }
 componentWillMount(){
   this.getRandomID(this.setData);
+
 }
 setData = () => {
   console.log('When setData is called' + this.state.randomID)
@@ -67,14 +72,17 @@ setData = () => {
   this.setState({randomName: data.val().name})
   this.setState({randomMajor: data.val().major})
 });
+console.log('Random name:' + this.state.randomName)
 }
-getRandomName = () =>{
 
+getRandomName = () =>{
   return this.state.randomName
 }
+
 getRandomMajor = () =>{
   return this.state.randomMajor
 }
+
 matched = ()=>{
   db.ref('matched/' + this.state.currentUser).update({
   [randomUser]: true
@@ -102,11 +110,12 @@ decline = ()=>{
     return (
       <View style={styles.randomInfo}>
       <View style={{flex:1}}>
-     <Nav  type = "profile" onPress = {() => this.props.navigator.replace({id:'home'})} />
+
      <ScrollView style={styles.container}>
      <Image source ={require('../images/profile.jpg')} resizeMode="stretch" style={{height:350, width:width}} />
       <View style={[styles.row, {marginTop:15}]}>
-      <Text style = {{fontSize:19, fontWeight:'400'}}>{this.getRandomName()}, </Text><Text style={{fontSize:21, fontWeight:'300', marginBottom:-2}}>23</Text>
+      <Text style = {{fontSize:19, fontWeight:'400'}}>{this.getRandomName()} </Text>
+      <Text style={{fontSize:21, fontWeight:'300', marginBottom:-2}}>23</Text>
       </View>
       <View style={styles.row}>
       <Text style={{color:'#444', fontSize:15}}>{this.getRandomMajor()}</Text>
@@ -115,51 +124,13 @@ decline = ()=>{
       <Text style={{color:'#777', fontSize:11}}>less than a mile away</Text>
       </View>
       <View style={styles.description}>
-      <Text style={{color:'#555'}}>We hook up, you do my laundry, I promise to call you but never really.</Text>
+      <Text style={{color:'#555'}}>BIO</Text>
       </View>
-      <View style ={styles.commons}>
-      <Text style = {styles.title}>
-     {this.state.friends} for Common Connections
-      </Text>
-      <Text style={{marginTop:10, fontSize:14, color:'#666', fontWeight:"400"}}>We compare your Facebook friends with those of your matches to display any common connections</Text>
-      </View>
-      <View style ={styles.commons}>
-      <Text style = {styles.title}>
-     Instagram Photos
-      </Text>
-      <ScrollView
-      horizontal = {true}
-      >
-      <View style ={{}}>
-            <Image source ={require('../images/profile.jpg')} resizeMode="stretch" style={{height:100, width:100, margin:5}} />
-            <Image source ={require('../images/profile.jpg')} resizeMode="stretch" style={{height:100, width:100, margin:5}} />
-      </View>
-      <View style ={{}}>
-            <Image source ={require('../images/profile.jpg')} resizeMode="stretch" style={{height:100, width:100, margin:5}} />
-            <Image source ={require('../images/profile.jpg')} resizeMode="stretch" style={{height:100, width:100, margin:5}} />
-      </View>
-      <View style ={{}}>
-            <Image source ={require('../images/profile.jpg')} resizeMode="stretch" style={{height:100, width:100, margin:5}} />
-            <Image source ={require('../images/profile.jpg')} resizeMode="stretch" style={{height:100, width:100, margin:5}} />
-      </View>
-      <View style ={{}}>
-            <Image source ={require('../images/profile.jpg')} resizeMode="stretch" style={{height:100, width:100, margin:5}} />
-            <Image source ={require('../images/profile.jpg')} resizeMode="stretch" style={{height:100, width:100, margin:5}} />
-      </View>
-      <View style ={{}}>
-            <Image source ={require('../images/profile.jpg')} resizeMode="stretch" style={{height:100, width:100, margin:5}} />
-            <Image source ={require('../images/profile.jpg')} resizeMode="stretch" style={{height:100, width:100, margin:5}} />
-      </View>
-      <View style ={{}}>
-            <Image source ={require('../images/profile.jpg')} resizeMode="stretch" style={{height:100, width:100, margin:5}} />
-            <Image source ={require('../images/profile.jpg')} resizeMode="stretch" style={{height:100, width:100, margin:5}} />
-      </View>
-      </ScrollView>
-      </View>
+
+
        </ScrollView>
        </View>
-   )
-}
+
 
       <Button
    onPress={() => this.matched()}
@@ -173,11 +144,9 @@ decline = ()=>{
 />
       </View>
 
-
     );
   }
 }
-
 
 const styles = StyleSheet.create({
   randomInfo:{
