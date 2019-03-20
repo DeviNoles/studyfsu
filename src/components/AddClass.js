@@ -4,7 +4,6 @@ import {StyleSheet,View, Image, KeyboardAvoidingView, Text, TextInput, Button} f
 import { createStackNavigator,createAppContainer } from "react-navigation";
 import { Avatar } from 'react-native-elements';
 import { Container, Row, Col, Grid } from 'react-bootstrap';
-
 import firebase from "firebase";
 
 var database = firebase.database();

@@ -3,6 +3,7 @@ import {StyleSheet,View, Image, KeyboardAvoidingView, Text, TextInput, Button, S
 import { createStackNavigator,createAppContainer,  } from "react-navigation";
 import Swiper from 'react-native-swiper';
 import firebase from "firebase";
+import AddClass from './AddClass';
 var db = firebase.database();
 var randomUser
 

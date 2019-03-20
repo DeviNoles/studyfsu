@@ -18,11 +18,12 @@ export default class HomeProfile extends Component {
       currentRandomUser: '',
       major: null,
       avi: '',
-      bio: 'ExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleText',
-      height: null
+      height: null,
+      bio: null
     }
     this.getUserName = this.getUserName.bind(this)
     this.getMajor = this.getMajor.bind(this)
+    this.getCurrentBio = this.getCurrentBio.bind(this)
   }
 componentWillMount(){
   var user = firebase.auth().currentUser;
@@ -44,6 +45,9 @@ componentWillMount(){
   getMajor(){
     return this.state.major
   }
+  getCurrentBio(){
+    return this.state.major
+  }
 getAvi = ()=>{
   var storage = firebase.storage().ref();
   storage.child('images/' + this.state.currentID).getDownloadURL().then((url) =>{
@@ -53,6 +57,7 @@ getAvi = ()=>{
 }
   render() {
     return (
+
   <View style={styles.container}>
   <View style={styles.profile}>
       <View style={styles.avi}>
@@ -70,10 +75,15 @@ getAvi = ()=>{
           </View>
 </View>
       </View>
-      <Bio/>
-      <AddClass/>
 
+      <View style={styles.bio}>
+      <Text style={{color:'#555'}}>Bio:</Text>
+      </View>
+      <Text style={{color:'#555'}}>
+      {this.getCurrentBio()}
+      </Text>
 </View>
+
     );
   }
 }
@@ -81,7 +91,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     paddingBottom:100,
-    flex: 2
+    flex: 1
   },
   avi:{
     paddingVertical: 80,
@@ -96,7 +106,24 @@ const styles = StyleSheet.create({
     height: 300
   },
   bio:{
-    backgroundColor: 'rgb(206,184,136)',
-    height: 300
-  }
+    paddingVertical: 40,
+    textAlign: 'left',
+    textAlign: 'left',
+    width: 350,
+    padding:15,
+    borderTopWidth:1,
+    borderBottomWidth:1,
+    borderColor:'#e3e3e3',
+    marginTop:10,
+    marginBottom:10
+
+  },
+  row: {
+    flexDirection:'row',
+    margin:15,
+    marginBottom:0,
+    marginTop:5,
+    alignItems:'flex-end'
+  },
+
 });

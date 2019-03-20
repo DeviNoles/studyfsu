@@ -17,7 +17,7 @@ export default class Bio extends Component {
       currentRandomUser: '',
       major: null,
       avi: '',
-      bio: 'ExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleTextExampleText',
+      bio: 'bio dawg',
       height: null
     }
     this.getUserName = this.getUserName.bind(this)

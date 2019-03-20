@@ -44,10 +44,17 @@ const RootStackNavigator = createStackNavigator(
 
  },
 
+ Card: {
+   screen: Card,
+   navigationOptions: {
+  headerVisible: false,
+ },},
 
-    Registration: {
-      screen: RegistrationScreen
-    },
+ Registration: {
+   screen: RegistrationScreen,
+   navigationOptions: {
+  header: null,
+},},
   },
 
   {
