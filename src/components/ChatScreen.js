@@ -174,7 +174,7 @@ getMatched = ()=>{
 })
 })
 }
-  eachPic(x){
+  eachPic(x){ //live match screen
     return(
       <TouchableOpacity style={{alignItems:'center'}}>
       <Image source = {x.image} style={{width:70, height:70, borderRadius:35, margin:10}} />

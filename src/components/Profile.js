@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
-import {StyleSheet,View, Image, KeyboardAvoidingView, Text, Dimensions, Button,TextInput} from 'react-native';
+import {StyleSheet,View, Image, KeyboardAvoidingView, Text, Dimensions, Button,TextInput, TouchableOpacity} from 'react-native';
 import { ImagePicker, Permissions } from 'expo';
 import { createStackNavigator,createAppContainer } from "react-navigation";
 import { Avatar } from 'react-native-elements';
 import { Container, Row, Col, Grid } from 'react-bootstrap';
 import AddClass from './AddClass';
 import Bio from './Bio';
+import Classes from './Classes'
 import firebase from "firebase";
 var database = firebase.database();
-var name
+import Modal from "react-native-modal";
+
 export default class HomeProfile extends Component {
   constructor(props) {
     super(props);
@@ -19,7 +21,8 @@ export default class HomeProfile extends Component {
       major: null,
       avi: '',
       height: null,
-      bio: null
+      bio: null,
+      isModalVisible: false
     }
     this.getUserName = this.getUserName.bind(this)
     this.getMajor = this.getMajor.bind(this)
@@ -46,7 +49,7 @@ componentWillMount(){
     return this.state.major
   }
   getCurrentBio(){
-    return this.state.major
+    return this.state.bio
   }
 getAvi = ()=>{
   var storage = firebase.storage().ref();
@@ -55,10 +58,16 @@ getAvi = ()=>{
     console.log(this.state.avi)
   })
 }
+
+toggleModal = () =>{
+   this.setState({ isModalVisible: !this.state.isModalVisible });
+   console.log('wtf')
+}
   render() {
     return (
 
   <View style={styles.container}>
+
   <View style={styles.profile}>
       <View style={styles.avi}>
       <Avatar
@@ -76,12 +85,53 @@ getAvi = ()=>{
 </View>
       </View>
 
+      <TouchableOpacity
+              style={styles.editbutton}
+              onPress={() => this.toggleModal()}>
+             <Text style={styles.buttonText}>
+              Edit Profile
+             </Text>
+           </TouchableOpacity>
+
+          <Modal isVisible={this.state.isModalVisible}>
+         <View style={{ flex: 1 }}>
+           <Text>Hello!</Text>
+           <TouchableOpacity onPress={this.toggleModal}>
+             <Text>Hide me!</Text>
+           </TouchableOpacity>
+         </View>
+       </Modal>
+
+      <TouchableOpacity
+               style={styles.classesbutton}
+               onPress={() => this.toggleModal()}>
+              <Text style={styles.buttonText}>
+               Classes
+              </Text>
+        </TouchableOpacity>
+
+        <Modal isVisible={this.state.isModalVisible}>
+        <View style={{ flex: 2 }}>
+           <Text>Hello!</Text>
+           <TouchableOpacity onPress={this._toggleModal}>
+             <Text>Hide me!</Text>
+           </TouchableOpacity>
+           </View>
+       </Modal>
+
       <View style={styles.bio}>
-      <Text style={{color:'#555'}}>Bio:</Text>
+      <Text style={{color:'#555'}}>Your Bio:</Text>
       </View>
+      <View style={styles.bioInfo}>
       <Text style={{color:'#555'}}>
       {this.getCurrentBio()}
       </Text>
+
+
+      </View>
+
+
+
 </View>
 
     );
@@ -106,24 +156,56 @@ const styles = StyleSheet.create({
     height: 300
   },
   bio:{
-    paddingVertical: 40,
+
+    marginTop: 40,
     textAlign: 'left',
     textAlign: 'left',
     width: 350,
     padding:15,
-    borderTopWidth:1,
     borderBottomWidth:1,
     borderColor:'#e3e3e3',
     marginTop:10,
     marginBottom:10
 
   },
-  row: {
-    flexDirection:'row',
-    margin:15,
-    marginBottom:0,
-    marginTop:5,
-    alignItems:'flex-end'
+  bioInfo: {
+    paddingVertical: 10,
+    textAlign: 'left',
+    textAlign: 'left',
+    width: 350,
+    padding:15,
+    borderBottomWidth:1,
+    borderColor:'#e3e3e3',
+    marginTop:10,
+    marginBottom:10
   },
+  editbutton: {
+    position: 'absolute',
+      left: 0,
+      bottom: 10,
+      marginRight: 0,
+      marginLeft: 10,
+      marginTop: 10,
+      paddingTop: 10,
+      paddingBottom: 10,
+      backgroundColor: 'green',
+      borderRadius: 10,
+      borderColor: 'white',
+  },
+  classesbutton: {
+      position: 'absolute',
+        right: 0,
+        bottom: 10,
+        marginRight: 0,
+        marginLeft: 10,
+        marginTop: 10,
+        paddingTop: 10,
+        paddingBottom: 10,
+        backgroundColor: 'green',
+        borderRadius: 10,
+        borderColor: 'white',
+
+  }
+
 
 });

@@ -1,14 +1,23 @@
 import React, { Component } from 'react';
-import {StyleSheet,View, Image, KeyboardAvoidingView, Text, Button} from 'react-native';
+import {StyleSheet,View, Image, KeyboardAvoidingView, Text, Button, TouchableOpacity} from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import LoginScreen from './LoginScreen';
 import Home from './Home';
 import Card from './Card'
 import ChatScreen from './ChatScreen'
+import Classes from './Classes'
+import Profile from './Profile'
 import RegistrationScreen from './RegistrationScreen';
-
-
 import firebase from "firebase";
+
+
+
+var isModal = false;
+toggleModal = () => {
+    isModal = !isModal
+    console.log('modal')
+}
+
 
 const RootStackNavigator = createStackNavigator(
   {
@@ -21,31 +30,26 @@ const RootStackNavigator = createStackNavigator(
     Home: {
       screen: Home,
       navigationOptions: {
-        headerStyle: {
-     backgroundColor: '#CEB888',
-   },
-     headerTitle: 'MeetFSU',
-     headerRight: (
-     <Button
-       onPress={() => alert('This is a button!')}
-       title="Add Class"
-       color="#fff"
-     />
-   ),
-   headerLeft: null,
-   headerLeft: (
-   <Button
-     onPress={() => alert('This is a button!')}
-     title="View Classes"
-     color="#fff"
-   />
- ),
+        header:null
    },
 
  },
 
  Card: {
    screen: Card,
+   navigationOptions: {
+  headerVisible: false,
+ },},
+
+
+ Classes: {
+   screen: Classes,
+   navigationOptions: {
+  headerVisible: false,
+ },},
+
+Profile: {
+   screen: Profile,
    navigationOptions: {
   headerVisible: false,
  },},
@@ -63,8 +67,13 @@ const RootStackNavigator = createStackNavigator(
 );
 
 const RootContainer = createAppContainer(RootStackNavigator);
-
 export default class Main extends Component {
+
+
+
+
+
+
   static navigationOptions = {
       header: null
     };
@@ -75,6 +84,7 @@ export default class Main extends Component {
       return (
         <View style={styles.container}>
       <RootContainer/>
+
         </View>
       );
 }
