@@ -100,12 +100,6 @@ toggleModal = () =>{
            <Text>Your Classes:</Text>
            <AddClass/>
            <TouchableOpacity onPress={this.toggleModal}>
-             <Text>Add Class</Text>
-           </TouchableOpacity>
-           <TouchableOpacity onPress={this.toggleModal}>
-             <Text>Remove Class</Text>
-           </TouchableOpacity>
-           <TouchableOpacity onPress={this.toggleModal}>
              <Text>Exit</Text>
            </TouchableOpacity>
          </View>

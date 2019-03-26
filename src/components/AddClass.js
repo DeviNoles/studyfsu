@@ -67,6 +67,41 @@ function (errorObject) {
       console.log("The read failed: " + errorObject.code);
     });
   }
+
+  remove(data){
+    var id = this.getUserID();
+    var text = data
+    var update = []
+    database.ref('class_enrollments/' + data).update({
+    [id]: null
+    });
+    database.ref('student_enrollments/' + id).update({
+    [data]: null
+    });
+    var ref = database.ref('class_enrollments/' + data);
+    // Attach an asynchronous callback to read the data at posts reference
+    ref.on("value",
+    function(data) {
+      var studentsInClass = data.val();
+      var keys = Object.keys(studentsInClass);
+      var i = 0;
+      keys.forEach(function(key) {
+        if (key != id){
+          database.ref('possible_matches/' + id).update({
+          [key]: null
+          });
+          database.ref('possible_matches/' + key).update({
+          [id]: null
+          });
+          console.log(key);
+        }
+  });
+  },
+  function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
+      });
+    }
+
   render() {
     return (
   <View style={styles.container}>
@@ -79,6 +114,12 @@ function (errorObject) {
   onPress={() => this.add(this.state.text)}
   title="Add Class"
   color="#841584"
+/>
+
+<Button
+onPress={() => this.remove(this.state.text)}
+title="Remove Class"
+color="#841584"
 />
 </View>
     );
