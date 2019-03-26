@@ -93,11 +93,20 @@ toggleModal = () =>{
              </Text>
            </TouchableOpacity>
 
-          <Modal isVisible={this.state.isModalVisible}>
-         <View style={{ flex: 1 }}>
-           <Text>Hello!</Text>
+          <Modal
+          onBackdropPress={() => this.toggleModal()}
+          isVisible={this.state.isModalVisible}>
+         <View style={styles.modalContainer}>
+           <Text>Your Classes:</Text>
+           <AddClass/>
            <TouchableOpacity onPress={this.toggleModal}>
-             <Text>Hide me!</Text>
+             <Text>Add Class</Text>
+           </TouchableOpacity>
+           <TouchableOpacity onPress={this.toggleModal}>
+             <Text>Remove Class</Text>
+           </TouchableOpacity>
+           <TouchableOpacity onPress={this.toggleModal}>
+             <Text>Exit</Text>
            </TouchableOpacity>
          </View>
        </Modal>
@@ -110,9 +119,11 @@ toggleModal = () =>{
               </Text>
         </TouchableOpacity>
 
-        <Modal isVisible={this.state.isModalVisible}>
-        <View style={{ flex: 2 }}>
-           <Text>Hello!</Text>
+        <Modal
+        isVisible={this.state.isModalVisible}
+        onBackdropPress={() => this.toggleModal()}>
+        <View style={styles.modalContainer}>
+           <AddClass/>
            <TouchableOpacity onPress={this._toggleModal}>
              <Text>Hide me!</Text>
            </TouchableOpacity>
@@ -205,7 +216,18 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         borderColor: 'white',
 
-  }
+  },
+
+  modalContainer:{
+  flex: 1,
+   alignItems: "center",
+   backgroundColor: 'rgb(206,184,136)',
+   padding: 25,
+   margin: 0,
+   borderRadius: 4,
+   borderColor: "rgba(0, 0, 0, 0.1)",
+ },
+
 
 
 });

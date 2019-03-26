@@ -3,7 +3,7 @@
   "expoServerPort": null,
   "packagerPort": null,
   "packagerPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null
+  "expoServerNgrokUrl": "https://n6-4bp.anonymous.studyfsu.exp.direct",
+  "packagerNgrokUrl": "https://packager.n6-4bp.anonymous.studyfsu.exp.direct",
+  "ngrokPid": 44190
 }
