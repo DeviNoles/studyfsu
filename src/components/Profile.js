@@ -7,6 +7,7 @@ import { Container, Row, Col, Grid } from 'react-bootstrap';
 import AddClass from './AddClass';
 import Bio from './Bio';
 import Classes from './Classes'
+import Edit from './Edit'
 import firebase from "firebase";
 var database = firebase.database();
 import Modal from "react-native-modal";
@@ -22,7 +23,8 @@ export default class HomeProfile extends Component {
       avi: '',
       height: null,
       bio: null,
-      isModalVisible: false
+      isModalVisible: false,
+      isEditModalVisible: false
     }
     this.getUserName = this.getUserName.bind(this)
     this.getMajor = this.getMajor.bind(this)
@@ -63,6 +65,11 @@ toggleModal = () =>{
    this.setState({ isModalVisible: !this.state.isModalVisible });
    console.log('wtf')
 }
+
+toggleEditModal = () =>{
+   this.setState({ isEditModalVisible: !this.state.isEditModalVisible });
+   console.log('wtf')
+}
   render() {
     return (
 
@@ -75,7 +82,7 @@ toggleModal = () =>{
         rounded
         activeOpacity={0.7}
         source={{uri:this.state.avi}}
-        onPress={() => this.editAvi()}
+        onPress={() => this.toggleEditModal()}
         showEditButton
       />
       <View style={styles.userName}>
@@ -85,13 +92,7 @@ toggleModal = () =>{
 </View>
       </View>
 
-      <TouchableOpacity
-              style={styles.editbutton}
-              onPress={() => this.toggleModal()}>
-             <Text style={styles.buttonText}>
-              Edit Profile
-             </Text>
-           </TouchableOpacity>
+
 
           <Modal
           onBackdropPress={() => this.toggleModal()}
@@ -114,11 +115,11 @@ toggleModal = () =>{
         </TouchableOpacity>
 
         <Modal
-        isVisible={this.state.isModalVisible}
-        onBackdropPress={() => this.toggleModal()}>
+        isVisible={this.state.isEditModalVisible}
+        onBackdropPress={() => this.toggleEditModal()}>
         <View style={styles.modalContainer}>
-           <AddClass/>
-           <TouchableOpacity onPress={this._toggleModal}>
+           <Edit/>
+           <TouchableOpacity onPress={this.toggleModal}>
              <Text>Hide me!</Text>
            </TouchableOpacity>
            </View>

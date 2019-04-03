@@ -8,6 +8,12 @@ import{Container, Content,Header,Form,Input,Item,Button, Label} from 'native-bas
 
 import firebase from "firebase";
 
+var config = {
+  apiKey: "AIzaSyCcszyokJC7yX686UpB3X5t352CN4PufEE",
+  authDomain: "studyfsu-74a19.firebaseapp.com",
+  databaseURL: "https://studyfsu-74a19.firebaseio.com",
+  storageBucket: "studyfsu-74a19.appspot.com",
+};
 
 var auth = firebase.auth();
 var database = firebase.database();
@@ -23,30 +29,11 @@ export default class Edit extends React.Component {
       passwordConfirm: null,
       currentID: null,
       avi: '',
-      image: ''
+      image: '',
+      bio: null
     })
   }
 
-
-signUpUser = (name, major, email, password, passwordConfirm, callback) => {
-      auth.createUserWithEmailAndPassword(email, password)
-      .then((data)=>{
-        console.log(data.user.uid)
-        database.ref('users/' + data.user.uid).set({
-        name: name,
-        major: major,
-        email: email,
-        password: password,
-        });
-
-        this.setState({currentID: data.user.uid})
-        console.log('ID IS: ' + this.state.currentID)
-        console.log('Account Created')
-        callback()
-        console.log('Done')
-    })
-
-}
 
 editAvi = async () => {
       await Permissions.askAsync(Permissions.CAMERA_ROLL);

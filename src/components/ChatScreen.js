@@ -18,7 +18,7 @@ import Iconz from 'react-native-vector-icons/Ionicons';
 
 var image1 = require('../images/fsu.png')
 
-var emptyConvos = []
+var convoList = []
 
 var convos = [{
   "id": 1,
@@ -149,6 +149,7 @@ getMatched = ()=>{
     ref.on('value', function(snapshot) {
     snapshot.forEach((childid)=>{ //for each user that ive liked
       var childref = firebase.database().ref('matched/' + childid.key) // reference to the matched i want to check
+      console.log('Matched Users' + childid.key)
       childref.on("value", snapshot => {
          if (snapshot.exists())
          {
