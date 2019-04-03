@@ -63,12 +63,12 @@ getAvi = ()=>{
 
 toggleModal = () =>{
    this.setState({ isModalVisible: !this.state.isModalVisible });
-   console.log('wtf')
+   console.log('Modal Toggled')
 }
 
 toggleEditModal = () =>{
    this.setState({ isEditModalVisible: !this.state.isEditModalVisible });
-   console.log('wtf')
+   console.log('Modal Toggled')
 }
   render() {
     return (
@@ -117,7 +117,7 @@ toggleEditModal = () =>{
         <Modal
         isVisible={this.state.isEditModalVisible}
         onBackdropPress={() => this.toggleEditModal()}>
-        <View style={styles.modalContainer}>
+        <View>
            <Edit/>
            <TouchableOpacity onPress={this.toggleModal}>
              <Text>Hide me!</Text>
@@ -222,6 +222,15 @@ const styles = StyleSheet.create({
    borderRadius: 4,
    borderColor: "rgba(0, 0, 0, 0.1)",
  },
+ editModalContainer:{
+ flex: 1,
+  alignItems: "center",
+  backgroundColor: 'rgb(206,184,136)',
+  margin: 0,
+  borderRadius: 4,
+  borderColor: "rgba(0, 0, 0, 0.1)",
+},
+
 
 
 

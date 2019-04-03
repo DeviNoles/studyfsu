@@ -161,7 +161,7 @@ getMatched = ()=>{
                   console.log(thischild.val()) // what i want to pass into the message object array
                 }
                 else if(thischild.key=='name'){
-                  console.log(thischild.val()) // what i want to pass into the message object array
+                  console.log('Matched User Name ' + thischild.val()) // what i want to pass into the message object array
                 }
               })
             })
