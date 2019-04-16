@@ -144,6 +144,7 @@ export default class ChatScreen extends Component {
   }
 }
 getMatched = ()=>{
+
     var ref = firebase.database().ref('matched/' + this.state.currentUser)
     var cur = this.state.currentUser
     ref.on('value', function(snapshot) {
@@ -157,11 +158,13 @@ getMatched = ()=>{
              if(childchildid.key == cur){
               firebase.database().ref('users/' + childid.key).once('value').then(function(snapshot) {
               snapshot.forEach((thischild)=>{
-                if(thischild.key=='id'){
-                  console.log(thischild.val()) // what i want to pass into the message object array
-                }
-                else if(thischild.key=='name'){
+                if(thischild.key=='name'){
                   console.log('Matched User Name ' + thischild.val()) // what i want to pass into the message object array
+                  var currentName = thischild.val()
+                }
+                else if(thischild.key=='major'){
+                  console.log('Matched User Name ' + thischild.val()) // what i want to pass into the message object array
+                  var currentProfileImage = thischild.val()
                 }
               })
             })

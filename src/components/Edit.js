@@ -8,13 +8,6 @@ import{Container, Content,Header,Form,Input,Item,Button, Label} from 'native-bas
 
 import firebase from "firebase";
 
-var config = {
-  apiKey: "AIzaSyCcszyokJC7yX686UpB3X5t352CN4PufEE",
-  authDomain: "studyfsu-74a19.firebaseapp.com",
-  databaseURL: "https://studyfsu-74a19.firebaseio.com",
-  storageBucket: "studyfsu-74a19.appspot.com",
-};
-
 var auth = firebase.auth();
 var database = firebase.database();
 var firestore = firebase.storage()
@@ -34,7 +27,11 @@ export default class Edit extends React.Component {
     })
   }
 
+componentWillMount(){
 
+
+
+}
 editAvi = async () => {
       await Permissions.askAsync(Permissions.CAMERA_ROLL);
       const { cancelled, uri } = await ImagePicker.launchImageLibraryAsync({
@@ -78,6 +75,7 @@ console.log('After')
       <StatusBar
       barStyle = "light-content"
       />
+
       <View style={styles.avi}>
       <Avatar
         size="xlarge"
@@ -88,6 +86,7 @@ console.log('After')
         activeOpacity={0.7}
       />
       </View>
+
       <TextInput
       style = {styles.input}
       placeholder = "Full Name"
@@ -95,18 +94,20 @@ console.log('After')
       autoCorrect={false}
       onChangeText={(name) => this.setState({name})}
       onSubmitEditing={() => this.emailInput.focus()}
+      value={this.state.currentFullName}
        />
-      <TextInput
-      style = {styles.input}
-      placeholder = "FSU Email"
-      returnKeyType="next"
-      keyboardType="email-address"
-      autoCapitalize="none"
-      autoCorrect={false}
-      onChangeText={(email) => this.setState({email})}
-      onSubmitEditing={() => this.majorInput.focus()}
-      ref={(input) => this.emailInput = input}
+
+       <TextInput
+       style = {styles.input}
+       secureTextEntry
+        returnKeyType="next"
+       placeholder = "Age"
+       onChangeText={(password) => this.setState({password})}
+       onSubmitEditing={() => this.passwordConfirmInput.focus()}
+       ref={(input) => this.passwordInput = input}
+       value={this.state.currentAge}
        />
+
        <TextInput
        style = {styles.input}
        placeholder = "Major"
@@ -115,29 +116,25 @@ console.log('After')
        onChangeText={(major) => this.setState({major})}
        onSubmitEditing={() => this.passwordInput.focus()}
        ref={(input) => this.majorInput = input}
+       value={this.state.currentMajor}
         />
+
       <TextInput
       style = {styles.input}
       secureTextEntry
        returnKeyType="next"
-      placeholder = "Password"
+      placeholder = "Bio"
       onChangeText={(password) => this.setState({password})}
       onSubmitEditing={() => this.passwordConfirmInput.focus()}
       ref={(input) => this.passwordInput = input}
+      value={this.state.currentBio}
       />
-      <TextInput
-      style = {styles.input}
-      secureTextEntry
-      placeholder = "Confirm Password"
-      returnKeyType="go"
-      onChangeText={(passwordConfirm) => this.setState({passwordConfirm})}
-      ref={(input) => this.passwordConfirmInput = input}
-      />
+
       <TouchableOpacity
       style={styles.ButtonContainer}
-      onPress={() => this.signUpUser(this.state.name, this.state.major, this.state.email, this.state.password,this.state.passwordConfirm, this.uploadImage)}
+      onPress={() => this.signUpUser(this.state.name, this.state.major, this.state.email, this.state.password,this.state.passwordConfirm, this.uploadImage)} // should update the database
       >
-        <Text style = {styles.ButtonText}>SIGN UP</Text>
+        <Text style = {styles.ButtonText}>SAVE</Text>
       </TouchableOpacity>
 
 
