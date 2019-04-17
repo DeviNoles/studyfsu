@@ -28,10 +28,39 @@ export default class Edit extends React.Component {
   }
 
 componentWillMount(){
-
+this.state.currentFullName = 'Devin'
 
 
 }
+
+updateUserInfo = (newImage, ,newName, newAge, newMajor, newBio) => {
+
+
+  firebase.database.ref().child('/posts/' + newPostKey)
+    .update({ title: "New title", body: "This is the new body" });
+
+
+      auth.createUserWithEmailAndPassword(email, password)
+      .then((data)=>{
+        console.log(data.user.uid)
+        database.ref('users/' + data.user.uid).set({
+        name: name,
+        major: major,
+        email: email,
+        password: password,
+        });
+
+
+        this.setState({currentID: data.user.uid})
+        console.log('ID IS: ' + this.state.currentID)
+        console.log('Account Created')
+        callback()
+        console.log('Done')
+    })
+
+}
+
+
 editAvi = async () => {
       await Permissions.askAsync(Permissions.CAMERA_ROLL);
       const { cancelled, uri } = await ImagePicker.launchImageLibraryAsync({
@@ -86,17 +115,18 @@ console.log('After')
         activeOpacity={0.7}
       />
       </View>
-
+<View>
       <TextInput
       style = {styles.input}
-      placeholder = "Full Name"
+      placeholder = "Major"
       returnKeyType="next"
       autoCorrect={false}
-      onChangeText={(name) => this.setState({name})}
-      onSubmitEditing={() => this.emailInput.focus()}
+      onChangeText={(major) => this.setState({major})}
+      onSubmitEditing={() => this.passwordInput.focus()}
+      ref={(input) => this.majorInput = input}
       value={this.state.currentFullName}
        />
-
+</View>
        <TextInput
        style = {styles.input}
        secureTextEntry
@@ -157,7 +187,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255,255,255,0.5)',
     paddingHorizontal: 10,
     marginBottom: 10,
-    marginVertical: 10
+    marginVertical: 10,
   },
   ButtonContainer:{
     backgroundColor: 'rgb(206,184,136)',
