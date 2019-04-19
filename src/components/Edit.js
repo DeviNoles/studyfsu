@@ -16,14 +16,16 @@ export default class Edit extends React.Component {
   constructor(props){
     super(props)
     this.state = ({
-      fullname: null,
-      email: null,
+      currentFullName: null,
+      currentEmail: null,
       password: null,
       passwordConfirm: null,
       currentID: null,
       avi: '',
       image: '',
-      bio: null
+      currentAge: null,
+      currentMajor: null,
+      currentBio: null
     })
   }
 
@@ -40,13 +42,16 @@ ref.once("value", (data) =>{
 // do some stuff once
 this.setState({currentFullName: data.val().name})
 this.setState({currentMajor: data.val().major})
+this.setState({currentEmail: data.val().email})
+this.setState({currentBio: data.val().bio})
+this.setState({currentAge: data.val().age})
 
 });
 }
 
 updateUserInfo = () => {
 
-  database.ref('users/' + this.state.currentID).update({
+  database.ref('users/' + this.state.currentID).set({
     name: this.state.currentFullName,
     major: this.state.currentMajor,
     email: this.state.currentEmail,
