@@ -92,8 +92,6 @@ toggleEditModal = () =>{
 </View>
       </View>
 
-
-
           <Modal
           onBackdropPress={() => this.toggleModal()}
           isVisible={this.state.isModalVisible}>

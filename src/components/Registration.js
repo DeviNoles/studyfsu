@@ -60,14 +60,17 @@ editAvi = async () => {
         allowsEditing: true,
       });
       if (!cancelled) {
+        this.setTimeout(() => {
         this.setState({ image: uri });
+        }, 100)
 }
       console.log('The image is' + this.state.image)
     };
 
 
 uploadImage = async () => {
-  var uri = this.state.image
+  var uri = this.state.image//probably fix this
+
   // Why XMLHttpRequest? See:
 // https://github.com/expo/expo/issues/2402#issuecomment-443726662
 const blob = await new Promise((resolve, reject) => {

@@ -28,36 +28,31 @@ export default class Edit extends React.Component {
   }
 
 componentWillMount(){
-this.state.currentFullName = 'Devin'
 
+this.setState({currentFullName: ''})
+var user = firebase.auth().currentUser;
+this.setState({currentID: user.uid})
+console.log('Edit logged in user id is' + user.uid)
 
+var ref = database.ref('users/' + user.uid);
+
+ref.once("value", (data) =>{
+// do some stuff once
+this.setState({currentFullName: data.val().name})
+this.setState({currentMajor: data.val().major})
+
+});
 }
 
-updateUserInfo = (newImage, ,newName, newAge, newMajor, newBio) => {
+updateUserInfo = () => {
 
-
-  firebase.database.ref().child('/posts/' + newPostKey)
-    .update({ title: "New title", body: "This is the new body" });
-
-
-      auth.createUserWithEmailAndPassword(email, password)
-      .then((data)=>{
-        console.log(data.user.uid)
-        database.ref('users/' + data.user.uid).set({
-        name: name,
-        major: major,
-        email: email,
-        password: password,
-        });
-
-
-        this.setState({currentID: data.user.uid})
-        console.log('ID IS: ' + this.state.currentID)
-        console.log('Account Created')
-        callback()
-        console.log('Done')
-    })
-
+  database.ref('users/' + this.state.currentID).update({
+    name: this.state.currentFullName,
+    major: this.state.currentMajor,
+    email: this.state.currentEmail,
+    age: this.state.currentAge,
+    bio: this.state.currentBio
+  });
 }
 
 
@@ -118,51 +113,65 @@ console.log('After')
 <View>
       <TextInput
       style = {styles.input}
-      placeholder = "Major"
+      placeholder = "Full Name"
       returnKeyType="next"
       autoCorrect={false}
-      onChangeText={(major) => this.setState({major})}
-      onSubmitEditing={() => this.passwordInput.focus()}
-      ref={(input) => this.majorInput = input}
+      onChangeText={(currentFullName) => this.setState({currentFullName})}
+      onSubmitEditing={() => this.majorInput.focus()}
+      ref={(input) => this.nameInput = input}
       value={this.state.currentFullName}
        />
 </View>
-       <TextInput
-       style = {styles.input}
-       secureTextEntry
-        returnKeyType="next"
-       placeholder = "Age"
-       onChangeText={(password) => this.setState({password})}
-       onSubmitEditing={() => this.passwordConfirmInput.focus()}
-       ref={(input) => this.passwordInput = input}
-       value={this.state.currentAge}
-       />
 
-       <TextInput
-       style = {styles.input}
-       placeholder = "Major"
-       returnKeyType="next"
-       autoCorrect={false}
-       onChangeText={(major) => this.setState({major})}
-       onSubmitEditing={() => this.passwordInput.focus()}
-       ref={(input) => this.majorInput = input}
-       value={this.state.currentMajor}
-        />
 
-      <TextInput
+    <TextInput
       style = {styles.input}
-      secureTextEntry
-       returnKeyType="next"
-      placeholder = "Bio"
-      onChangeText={(password) => this.setState({password})}
-      onSubmitEditing={() => this.passwordConfirmInput.focus()}
-      ref={(input) => this.passwordInput = input}
-      value={this.state.currentBio}
-      />
+    placeholder = "Major"
+    returnKeyType="next"
+    autoCorrect={false}
+    onChangeText={(currentMajor) => this.setState({currentMajor})}
+    onSubmitEditing={() => this.emailInput.focus()}
+    ref={(input) => this.majorInput = input}
+    value={this.state.currentMajor}
+    />
+    <TextInput
+      style = {styles.input}
+    placeholder = "E-Mail Address"
+    returnKeyType="next"
+    autoCorrect={false}
+    onChangeText={(currentEmail) => this.setState({currentEmail})}
+    onSubmitEditing={() => this.ageInput.focus()}
+    ref={(input) => this.emailInput = input}
+    value={this.state.currentEmail}
+    />
+
+
+    <TextInput
+      style = {styles.input}
+    placeholder = "Age"
+    returnKeyType="next"
+    autoCorrect={false}
+    onChangeText={(currentAge) => this.setState({currentAge})}
+    onSubmitEditing={() => this.bioInput.focus()}
+    ref={(input) => this.ageInput = input}
+    value={this.state.currentAge}
+    />
+
+
+
+    <TextInput
+      style = {styles.input}
+    placeholder = "Bio"
+    returnKeyType="next"
+    autoCorrect={false}
+    onChangeText={(currentBio) => this.setState({currentBio})}
+    ref={(input) => this.bioInput = input}
+    value={this.state.currentBio}
+    />
 
       <TouchableOpacity
       style={styles.ButtonContainer}
-      onPress={() => this.signUpUser(this.state.name, this.state.major, this.state.email, this.state.password,this.state.passwordConfirm, this.uploadImage)} // should update the database
+      onPress={() => this.updateUserInfo()} // should update the database
       >
         <Text style = {styles.ButtonText}>SAVE</Text>
       </TouchableOpacity>
