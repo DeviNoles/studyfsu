@@ -33,13 +33,13 @@ export default class HomeProfile extends Component {
 componentWillMount(){
   var user = firebase.auth().currentUser;
   if (user){
-    console.log('ID is: ' + user.uid)
     var ref = database.ref('users/' + user.uid);
     ref.once("value", (data) =>{
 // do some stuff once
     this.setState({currentID: user.uid})
     this.setState({currentUser: data.val().name})
     this.setState({major: data.val().major})
+    this.setState({bio: data.val().bio})
     this.getAvi()
 });
   }
@@ -86,8 +86,8 @@ toggleEditModal = () =>{
         showEditButton
       />
       <View style={styles.userName}>
-          <Text>{this.getUserName()}</Text>
-          <Text>{this.getMajor()}</Text>
+          <Text>{this.state.currentUser}</Text>
+          <Text>{this.state.major}</Text>
           </View>
 </View>
       </View>
@@ -118,7 +118,7 @@ toggleEditModal = () =>{
         <View>
            <Edit/>
            <TouchableOpacity onPress={this.toggleModal}>
-             <Text>Hide me!</Text>
+
            </TouchableOpacity>
            </View>
        </Modal>
