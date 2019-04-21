@@ -53,6 +53,7 @@ componentWillMount(){
   getCurrentBio(){
     return this.state.bio
   }
+  
 getAvi = ()=>{
   var storage = firebase.storage().ref();
   storage.child('images/' + this.state.currentID).getDownloadURL().then((url) =>{

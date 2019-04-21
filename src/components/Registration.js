@@ -60,10 +60,9 @@ editAvi = async () => {
         allowsEditing: true,
       });
       if (!cancelled) {
-        this.setTimeout(() => {
+
         this.setState({ image: uri });
-        }, 100)
-}
+      }
       console.log('The image is' + this.state.image)
     };
 

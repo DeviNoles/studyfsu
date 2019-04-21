@@ -63,17 +63,27 @@ function (errorObject) {
 componentWillMount(){
   this.getRandomID(this.setData);
 
+
 }
 setData = () => {
   console.log('When setData is called' + this.state.randomID)
+  this.getAvi()
   var ref = db.ref('users/' + this.state.randomID);
-  console.log(ref)
   ref.once("value", (data) =>{
 // do some stuff once
   this.setState({randomName: data.val().name})
   this.setState({randomMajor: data.val().major})
 });
 console.log('Random name:' + this.state.randomName)
+
+}
+
+getAvi = ()=>{
+  var storage = firebase.storage().ref();
+  storage.child('images/' + this.state.randomID).getDownloadURL().then((url) =>{
+    this.setState({avi: url})
+    console.log('RANDOM PIC IS ' +this.state.avi)
+  })
 }
 
 getRandomName = () =>{
@@ -113,7 +123,12 @@ decline = ()=>{
       <View style={{flex:1}}>
 
      <ScrollView style={styles.container}>
-     <Image source ={require('../images/profile.jpg')} resizeMode="stretch" style={{height:350, width:width}} />
+
+     <Image source={{uri:this.state.avi}}
+      resizeMode="stretch"
+      style={{height:350, width:width}}
+      />
+
       <View style={[styles.row, {marginTop:15}]}>
       <Text style = {{fontSize:19, fontWeight:'400'}}>{this.getRandomName()} </Text>
       <Text style={{fontSize:21, fontWeight:'300', marginBottom:-2}}>23</Text>
