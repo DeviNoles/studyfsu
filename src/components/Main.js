@@ -25,12 +25,14 @@ const RootStackNavigator = createStackNavigator(
       screen: LoginScreen,
       navigationOptions: {
      header: null,
+     gesturesEnabled: true,
    },},
 
     Home: {
       screen: Home,
       navigationOptions: {
-        header:null
+        header:null,
+        gesturesEnabled: false,
    },
 
  },

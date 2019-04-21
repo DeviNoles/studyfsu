@@ -3,7 +3,7 @@
   "expoServerPort": null,
   "packagerPort": null,
   "packagerPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null
+  "expoServerNgrokUrl": "https://5g-ytc.anonymous.studyfsu.exp.direct",
+  "packagerNgrokUrl": "https://packager.5g-ytc.anonymous.studyfsu.exp.direct",
+  "ngrokPid": 88255
 }
