@@ -33,6 +33,9 @@ export default class Registration extends React.Component {
     })
   }
 
+componentWillMount(){
+  this.setState({image:'https://cdn.pixabay.com/photo/2016/08/31/11/54/user-1633249__340.png'})
+}
 
 signUpUser = (name, major, email, password, passwordConfirm, callback) => {
       auth.createUserWithEmailAndPassword(email, password)
@@ -53,6 +56,7 @@ signUpUser = (name, major, email, password, passwordConfirm, callback) => {
     })
 
 }
+
 
 editAvi = async () => {
       await Permissions.askAsync(Permissions.CAMERA_ROLL);
@@ -103,10 +107,10 @@ console.log('After')
       <Avatar
         size="xlarge"
         rounded
-        source={this.state.image}
+        source={{uri:this.state.image}}
         onPress={() => this.editAvi()}
         showEditButton
-        activeOpacity={0.7}
+
       />
       </View>
       <TextInput
