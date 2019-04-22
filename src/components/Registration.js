@@ -2,9 +2,10 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Dimensions from 'Dimensions';
 import { Avatar } from 'react-native-elements';
-import {StyleSheet,View,TextInput, TouchableOpacity, Text, StatusBar} from 'react-native';
+import {StyleSheet,View,TextInput, TouchableOpacity, Text, StatusBar,Alert} from 'react-native';
 import { ImagePicker, Permissions } from 'expo';
 import{Container, Content,Header,Form,Input,Item,Button, Label} from 'native-base';
+i
 
 import firebase from "firebase";
 
@@ -36,8 +37,34 @@ export default class Registration extends React.Component {
 componentWillMount(){
   this.setState({image:'https://cdn.pixabay.com/photo/2016/08/31/11/54/user-1633249__340.png'})
 }
+getAlert = (title) => {
+  Alert.alert(
+     title,
+     'Please Try Again',
+     [
+       {text: 'OK', onPress: () => console.warn('Passwords don\'t match'), style: 'cancel'}
+
+     ]
+   );
+
+}
+
 
 signUpUser = (name, major, email, password, passwordConfirm, callback) => {
+
+  if(password!=passwordConfirm){
+    this.getAlert('Password Confirmation Does Not Match');
+  }
+  else if(name == null || major == null || email== null  || password== null  || passwordConfirm== null ){
+    this.getAlert('Fill Out All Fields');
+  }
+  else if(password.length < 6 || passwordConfirm.length < 6){
+    this.getAlert('Enter A Password Longer Than 6 Characters');
+  }
+
+
+  else{
+
       auth.createUserWithEmailAndPassword(email, password)
       .then((data)=>{
         console.log(data.user.uid)
@@ -54,6 +81,12 @@ signUpUser = (name, major, email, password, passwordConfirm, callback) => {
         callback()
         console.log('Done')
     })
+
+
+
+
+  }
+
 
 }
 
