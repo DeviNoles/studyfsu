@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Dimensions from 'Dimensions';
-import {StyleSheet,View,TextInput, TouchableOpacity, Text, StatusBar} from 'react-native';
+import {StyleSheet,View,TextInput, TouchableOpacity, Text, StatusBar, Alert} from 'react-native';
 
 
 
@@ -42,9 +42,18 @@ loginUser = (email, password) => {
 
 
 
-        }).catch(error => {
-            console.error(error);
         })
+    .catch(function(error) {
+      // Handle Errors here.
+      Alert.alert(
+         'Incorrect Login',
+         'Please Try Again',
+         [
+           {text: 'OK', onPress: () => console.warn('Incorrect Login'), style: 'cancel'}
+
+         ]
+       );
+    })
 
 }
 

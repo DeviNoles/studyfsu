@@ -42,7 +42,7 @@ getAlert = (title) => {
      title,
      'Please Try Again',
      [
-       {text: 'OK', onPress: () => console.warn('Passwords don\'t match'), style: 'cancel'}
+       {text: 'OK', onPress: () => console.warn(title), style: 'cancel'}
 
      ]
    );
@@ -64,7 +64,6 @@ signUpUser = (name, major, email, password, passwordConfirm, callback) => {
 
 
   else{
-
       auth.createUserWithEmailAndPassword(email, password)
       .then((data)=>{
         console.log(data.user.uid)
@@ -74,17 +73,23 @@ signUpUser = (name, major, email, password, passwordConfirm, callback) => {
         email: email,
         password: password,
         });
-
         this.setState({currentID: data.user.uid})
         console.log('ID IS: ' + this.state.currentID)
         console.log('Account Created')
         callback()
         console.log('Done')
     })
+    .catch(function(error) {
+  // Handle Errors here.
+  Alert.alert(
+     'Account Already Exists With This Email Address',
+     'Please Try Again',
+     [
+       {text: 'OK', onPress: () => console.warn('Duplicate Email Registration'), style: 'cancel'}
 
-
-
-
+     ]
+   );
+})
   }
 
 
