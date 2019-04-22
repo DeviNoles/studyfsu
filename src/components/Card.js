@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {StyleSheet,View, Image, KeyboardAvoidingView, Text, TextInput, Button, ScrollView, Dimensions} from 'react-native';
+import {StyleSheet,View, Image, KeyboardAvoidingView, Text, TextInput, Button, ScrollView, Dimensions, Alert} from 'react-native';
 import { createStackNavigator,createAppContainer,  } from "react-navigation";
 import Swiper from 'react-native-swiper';
 import firebase from "firebase";
@@ -44,17 +44,23 @@ getRandomID(callback){
     try {
       var keys = Object.keys(allStudents);
       randomUser = keys[Math.floor(Math.random()*keys.length)];
-      console.log(randomUser)
+      console.log('The Random User is ' + randomUser)
       await this.setState({randomID: randomUser})
       callback()
       return this.state.randomID
 
     }
-    catch (e){
-       console.log(e)
+    catch (e){ //error?
+      Alert.alert(
+         'No Available Cards',
+         'Add a Class to Get Started',
+         [
+           {text: 'OK', onPress: () => console.warn('No Available Matches'), style: 'cancel'}
+
+         ]
+       );
     }
-    finally{
-    }
+
 },
 function (errorObject) {
       console.log("The read failed: " + errorObject.code);
@@ -105,17 +111,17 @@ matched = ()=>{
         console.log("MATCHED ON BOTH SIDES");
         const email = snapshot.val();
         firebase.database().ref(`possible_matches/${this.state.currentUser}/${this.state.randomID}`).remove();
-        this.getRandomID();
+
       }
       else{
         firebase.database().ref(`possible_matches/${this.state.currentUser}/${this.state.randomID}`).remove();
-        this.getRandomID();
+
       }
   });
 }
 decline = ()=>{
   firebase.database().ref(`possible_matches/${this.state.currentUser}/${randomUser}`).remove();
-  this.getRandomID();
+
 }
   render() {
     return (
