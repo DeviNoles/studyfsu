@@ -48,6 +48,17 @@ getAlert = (title) => {
    );
 
 }
+getAlertWithParams = (title, body) => {
+  Alert.alert(
+     title,
+     body,
+     [
+       {text: 'OK', onPress: () => console.warn(title), style: 'cancel'}
+
+     ]
+   );
+
+}
 
 
 signUpUser = (name, major, email, password, passwordConfirm, callback) => {
@@ -75,9 +86,9 @@ signUpUser = (name, major, email, password, passwordConfirm, callback) => {
         });
         this.setState({currentID: data.user.uid})
         console.log('ID IS: ' + this.state.currentID)
-        console.log('Account Created')
+
         callback()
-        console.log('Done')
+        this.getAlertWithParams('Account Created', 'Please Log In')
     })
     .catch(function(error) {
   // Handle Errors here.
