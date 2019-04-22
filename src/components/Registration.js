@@ -88,6 +88,7 @@ signUpUser = (name, major, email, password, passwordConfirm, callback) => {
         console.log('ID IS: ' + this.state.currentID)
 
         callback()
+        data.user.sendEmailVerification(); 
         this.getAlertWithParams('Account Created', 'Please Log In')
     })
     .catch(function(error) {
@@ -102,7 +103,6 @@ signUpUser = (name, major, email, password, passwordConfirm, callback) => {
    );
 })
   }
-
 
 }
 

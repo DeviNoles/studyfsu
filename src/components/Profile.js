@@ -6,7 +6,6 @@ import { Avatar } from 'react-native-elements';
 import { Container, Row, Col, Grid } from 'react-bootstrap';
 import AddClass from './AddClass';
 import Bio from './Bio';
-import Classes from './Classes'
 import Edit from './Edit'
 import firebase from "firebase";
 var database = firebase.database();
@@ -34,7 +33,7 @@ componentWillMount(){
   var user = firebase.auth().currentUser;
   if (user){
     var ref = database.ref('users/' + user.uid);
-    ref.once("value", (data) =>{
+    ref.on("value", (data) =>{
 // do some stuff once
     this.setState({currentID: user.uid})
     this.setState({currentUser: data.val().name})
@@ -44,6 +43,7 @@ componentWillMount(){
 });
   }
 }
+
   getUserName(){
     return this.state.currentUser
   }
@@ -53,7 +53,7 @@ componentWillMount(){
   getCurrentBio(){
     return this.state.bio
   }
-  
+
 getAvi = ()=>{
   var storage = firebase.storage().ref();
   storage.child('images/' + this.state.currentID).getDownloadURL().then((url) =>{
@@ -65,11 +65,16 @@ getAvi = ()=>{
 toggleModal = () =>{
    this.setState({ isModalVisible: !this.state.isModalVisible });
    console.log('Modal Toggled')
+   this.setState({modal: 'on'})
+   console.log('Refreshed')
+   this.getAvi()
 }
 
 toggleEditModal = () =>{
    this.setState({ isEditModalVisible: !this.state.isEditModalVisible });
    console.log('Modal Toggled')
+   console.log('Refreshed')
+   this.getAvi()
 }
   render() {
     return (

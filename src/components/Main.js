@@ -5,7 +5,6 @@ import LoginScreen from './LoginScreen';
 import Home from './Home';
 import Card from './Card'
 import ChatScreen from './ChatScreen'
-import Classes from './Classes'
 import Profile from './Profile'
 import RegistrationScreen from './RegistrationScreen';
 import firebase from "firebase";
@@ -43,12 +42,6 @@ const RootStackNavigator = createStackNavigator(
   headerVisible: false,
  },},
 
-
- Classes: {
-   screen: Classes,
-   navigationOptions: {
-  headerVisible: false,
- },},
 
 Profile: {
    screen: Profile,

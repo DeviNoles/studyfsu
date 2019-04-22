@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Dimensions from 'Dimensions';
 import { Avatar } from 'react-native-elements';
-import {StyleSheet,View,TextInput, TouchableOpacity, Text, StatusBar} from 'react-native';
+import {StyleSheet,View,TextInput, TouchableOpacity, Text, StatusBar, Alert} from 'react-native';
 import { ImagePicker, Permissions } from 'expo';
 import{Container, Content,Header,Form,Input,Item,Button, Label} from 'native-base';
 
@@ -33,12 +33,12 @@ componentWillMount(){
 
 this.setState({currentFullName: ''})
 var user = firebase.auth().currentUser;
+  var storage = firebase.storage().ref();
 this.setState({currentID: user.uid})
 console.log('Edit logged in user id is' + user.uid)
 
 var ref = database.ref('users/' + user.uid);
-
-ref.once("value", (data) =>{
+ref.on("value", (data) =>{
 // do some stuff once
 this.setState({currentFullName: data.val().name})
 this.setState({currentMajor: data.val().major})
@@ -47,6 +47,10 @@ this.setState({currentBio: data.val().bio})
 this.setState({currentAge: data.val().age})
 
 });
+storage.child('images/' + user.uid).getDownloadURL().then((url) =>{
+  this.setState({avi: url})
+  console.log(this.state.avi)
+})
 }
 
 updateUserInfo = () => {
@@ -58,23 +62,23 @@ updateUserInfo = () => {
     age: this.state.currentAge,
     bio: this.state.currentBio
   });
+
+  this.updateImage()
+
+  Alert.alert(
+     'Profile Updated',
+     'Press Behind Modal to Exit',
+     [
+       {text: 'OK', onPress: () => console.warn('Profile Updated'), style: 'cancel'}
+
+     ]
+   );
+
 }
 
+updateImage = async () => {
+  var uri = this.state.avi//probably fix this
 
-editAvi = async () => {
-      await Permissions.askAsync(Permissions.CAMERA_ROLL);
-      const { cancelled, uri } = await ImagePicker.launchImageLibraryAsync({
-        allowsEditing: true,
-      });
-      if (!cancelled) {
-        this.setState({ image: uri });
-}
-      console.log('The image is' + this.state.image)
-    };
-
-
-uploadImage = async () => {
-  var uri = this.state.image
   // Why XMLHttpRequest? See:
 // https://github.com/expo/expo/issues/2402#issuecomment-443726662
 const blob = await new Promise((resolve, reject) => {
@@ -98,6 +102,18 @@ console.log('After')
 //Done with the blob, close and release it
 }
 
+editAvi = async () => {
+      await Permissions.askAsync(Permissions.CAMERA_ROLL);
+      const { cancelled, uri } = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: true,
+      });
+      if (!cancelled) {
+        this.setState({ avi: uri });
+}
+      console.log('The image is' + this.state.avi)
+    };
+
+
   render() {
     return (
       <View style={styles.container}>
@@ -109,7 +125,7 @@ console.log('After')
       <Avatar
         size="xlarge"
         rounded
-        source={this.state.image}
+        source={{uri:this.state.avi}}
         onPress={() => this.editAvi()}
         showEditButton
         activeOpacity={0.7}

@@ -56,11 +56,9 @@ getRandomID(callback){
          'Add a Class to Get Started',
          [
            {text: 'OK', onPress: () => console.warn('No Available Matches'), style: 'cancel'}
-
          ]
        );
     }
-
 },
 function (errorObject) {
       console.log("The read failed: " + errorObject.code);

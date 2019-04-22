@@ -39,9 +39,6 @@ loginUser = (email, password) => {
             // Route to site here
             console.log('Logged In')
             this.props.navLogin('Home');
-
-
-
         })
     .catch(function(error) {
       // Handle Errors here.
@@ -50,18 +47,13 @@ loginUser = (email, password) => {
          'Please Try Again',
          [
            {text: 'OK', onPress: () => console.warn('Incorrect Login'), style: 'cancel'}
-
          ]
        );
     })
 
 }
-
 signUpUser = () => {
   this.props.regLogin('Registration');
-
-
-
 }
 
   render() {
@@ -90,6 +82,8 @@ signUpUser = () => {
       returnKeyType="go"
       ref={(input) => this.passwordInput = input}
       />
+
+    
       <TouchableOpacity
       style={styles.ButtonContainer}
       onPress={() => this.loginUser(this.state.email, this.state.password)}
