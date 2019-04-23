@@ -8,7 +8,7 @@ import Modal from "react-native-modal";
 import{Container, Content,Header,Form,Input,Item,Button, Label} from 'native-base';
 
 import firebase from "firebase";
-
+import Pass from './Pass'
 var config = {
   apiKey: "AIzaSyCcszyokJC7yX686UpB3X5t352CN4PufEE",
   authDomain: "studyfsu-74a19.firebaseapp.com",
@@ -121,6 +121,7 @@ toggleModal = () =>{
       isVisible={this.state.isModalVisible}>
      <View style={styles.modalContainer}>
        <Text>Password Reset</Text>
+       <Pass/>
      </View>
    </Modal>
       </View>
