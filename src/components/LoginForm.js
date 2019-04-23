@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Dimensions from 'Dimensions';
 import {StyleSheet,View,TextInput, TouchableOpacity, Text, StatusBar, Alert} from 'react-native';
-
+import Modal from "react-native-modal";
 
 
 import{Container, Content,Header,Form,Input,Item,Button, Label} from 'native-base';
@@ -27,7 +27,8 @@ export default class LoginForm extends React.Component {
 
     this.state = ({
       email: '',
-      password: ''
+      password: '',
+      isModalVisible: false,
     })
   }
 
@@ -54,6 +55,16 @@ loginUser = (email, password) => {
 }
 signUpUser = () => {
   this.props.regLogin('Registration');
+}
+
+forgotPass = () =>{
+  this.toggleModal();
+}
+toggleModal = () =>{
+   this.setState({ isModalVisible: !this.state.isModalVisible });
+   console.log('Modal Toggled')
+   this.setState({modal: 'on'})
+   console.log('Refreshed')
 }
 
   render() {
@@ -83,7 +94,14 @@ signUpUser = () => {
       ref={(input) => this.passwordInput = input}
       />
 
-    
+      <TouchableOpacity
+      onPress={() => this.forgotPass()}
+      >
+      <Text style={{color: 'white'}}>
+      Forgot Password
+      </Text>
+      </TouchableOpacity>
+
       <TouchableOpacity
       style={styles.ButtonContainer}
       onPress={() => this.loginUser(this.state.email, this.state.password)}
@@ -91,15 +109,20 @@ signUpUser = () => {
         <Text style = {styles.ButtonText}>LOGIN</Text>
       </TouchableOpacity>
 
-
       <TouchableOpacity
       style={styles.SignUpButtonContainer}
-
       onPress={() => this.signUpUser()}
       >
         <Text style = {styles.ButtonText}>SIGN UP</Text>
       </TouchableOpacity>
 
+      <Modal
+      onBackdropPress={() => this.toggleModal()}
+      isVisible={this.state.isModalVisible}>
+     <View style={styles.modalContainer}>
+       <Text>Password Reset</Text>
+     </View>
+   </Modal>
       </View>
 
     );
@@ -125,11 +148,10 @@ const styles = StyleSheet.create({
   ButtonContainer:{
     backgroundColor: 'rgb(206,184,136)',
     paddingVertical: 15,
+    marginTop: 5,
     marginBottom: 30,
     justifyContent: 'center',
     borderRadius: 180
-
-
   },
   SignUpButtonContainer:{
     backgroundColor: 'rgb(206,184,136)',
@@ -140,6 +162,18 @@ const styles = StyleSheet.create({
   },
   ButtonText:{
     textAlign:'center'
-  }
+  },
+  forgotPass:{
+
+  },
+  modalContainer:{
+  flex: 1,
+   alignItems: "center",
+   backgroundColor: 'rgb(206,184,136)',
+   padding: 25,
+   margin: 0,
+   borderRadius: 4,
+   borderColor: "rgba(0, 0, 0, 0.1)",
+ },
 
 });

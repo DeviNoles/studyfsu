@@ -92,8 +92,8 @@ toggleEditModal = () =>{
         showEditButton
       />
       <View style={styles.userName}>
-          <Text>{this.state.currentUser}</Text>
-          <Text>{this.state.major}</Text>
+          <Text style={{color: 'white'}}>{this.state.currentUser}</Text>
+          <Text style={{color: 'white'}}>{this.state.major}</Text>
           </View>
 </View>
       </View>
