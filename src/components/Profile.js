@@ -130,10 +130,10 @@ toggleEditModal = () =>{
        </Modal>
 
       <View style={styles.bio}>
-      <Text style={{color:'#555'}}>Your Bio:</Text>
+      <Text style={{color: 'white'}}>Your Bio:</Text>
       </View>
       <View style={styles.bioInfo}>
-      <Text style={{color:'#555'}}>
+      <Text style={{color: 'white'}}>
       {this.getCurrentBio()}
       </Text>
 

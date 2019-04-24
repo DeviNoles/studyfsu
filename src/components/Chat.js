@@ -8,7 +8,9 @@ import {
   TouchableOpacity,
   ScrollView,
   ListView,
-  View
+  View,
+  FlatList,
+  Dimensions
 } from 'react-native';
 import firebase from "firebase"
 import Nav from './global-widgets/nav'
@@ -19,18 +21,24 @@ import { Card, ListItem, Button, Icon } from 'react-native-elements'
 
 var image1 = require('../images/fsu.png')
 
+const numColumns = 2
+const formatData = (data, numColumns) => {
+  const numberOfFullRows = Math.floor(data.length / numColumns);
 
+  let numberOfElementsLastRow = data.length - (numberOfFullRows * numColumns);
+  while (numberOfElementsLastRow !== numColumns && numberOfElementsLastRow !== 0) {
+    data.push({ key: `blank-${numberOfElementsLastRow}`, empty: true });
+    numberOfElementsLastRow++;
+  }
 
-var convos = [{
-  "id": 1,
-  "name": "Diane",
-  "message": "Suspendisse accumsan tortor quis turpis.",
-  "image" : image1
-},]
+  return data;
+};
+
 
 var newMatches = [{
   "id": 1,
   "first_name": "Sarah",
+  "message": "Suspendisse accumsan tortor quis turpis.",
   "image" : image1
 }, {
   "id": 2,
@@ -80,8 +88,9 @@ export default class Chat extends Component {
     super(props)
     this.state = {
       dataSource: ds.cloneWithRows(newMatches),
-      convoData: ds.cloneWithRows(convos),
+      convoData: ds.cloneWithRows(newMatches),
     }
+    this.createChat = this.createChat.bind(this)
   }
 
   componentWillMount(){
@@ -140,8 +149,6 @@ getMatched = ()=>{
           }
       });
 
-//////////////////
-
 })
 })
 }
@@ -154,43 +161,78 @@ getMatched = ()=>{
       )}
 
 
-    convoRender(x){
-      return(
-              <TouchableOpacity style={{alignItems:'center', flexDirection:'row', marginTop:5, marginBottom:5, borderBottomWidth:1, borderColor:'#e3e3e3'}}>
-              <Image source = {x.image} style={{width:70, height:70, borderRadius:35, margin:10}} />
+  createChat = function (name) {
+          return (
+            <View>
+            <Card title="CARD WITH DIVIDER">
+
               <View>
-              <Text style={{fontWeight:'600', color:'#111'}}>{x.name}</Text>
-              <Text
-              numberOfLines ={1}
-              style={{fontWeight:'400', color:'#888', width:200}}>{x.message}</Text>
+
+                <Text>{name}</Text>
               </View>
-              </TouchableOpacity>)}
+            </Card>
+            </View>
+          )
+      }
 
 
-  render() {
-    return (
-      <View>
+renderCards = ()=>{
 
+  for (var key in newMatches) {
+    console.log("User " + newMatches[key]['first_name']); // "User john is #234"
+return(
+  this.createChat(newMatches[key]['first_name'])
 
+  )
+}
 
-      <Card title="CARD WITH DIVIDER">
-  {
-    newMatches.map((u, i) => {
-      return (
-        <View key={i}>
-          <Image
-            resizeMode="cover"
-            source={{ uri: u.avatar }}
-          />
-          <Text>{u.first_name}</Text>
-        </View>
-      );
-    })
+}
+renderItem = ({ item, index }) => {
+  if (item.empty === true) {
+    return <View style={[styles.item, styles.itemInvisible]} />;
   }
-</Card>
+  return (
+    <View
+      style={styles.item}
+    >
+      <Text style={styles.itemText}>{item.key}</Text>
+    </View>
+  );
+};
 
-
-        </View>
-    )
+render() {
+  const data = [
+    { key: 'A' }, { key: 'B' }, { key: 'C' }, { key: 'D' }, { key: 'E' }, { key: 'F' }, { key: 'G' }, { key: 'H' }, { key: 'I' }, { key: 'J' },
+    // { key: 'K' },
+    // { key: 'L' },
+  ];
+  return (
+    <FlatList
+      data={data}
+      style={styles.container}
+      renderItem={this.renderItem}
+      numColumns={numColumns}
+    />
+  );
 }
 }
+
+const styles = StyleSheet.create({
+container: {
+  marginVertical: 20,
+},
+item: {
+  backgroundColor: '#4D243D',
+  alignItems: 'center',
+  justifyContent: 'center',
+  flex: 1,
+  margin: 5,
+  height: Dimensions.get('window').width / numColumns, // approximate a square
+},
+itemInvisible: {
+  backgroundColor: 'transparent',
+},
+itemText: {
+  color: '#fff',
+},
+});

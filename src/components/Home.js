@@ -49,7 +49,7 @@ export default class Home extends React.Component {
 
 
 
-        <View style={this.viewStyle()}>
+        <View>
           <Chat/>
         </View>
 
@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   profile:{
+    flex: 1,
     backgroundColor: 'rgb(120,47,65)',
     height: 300
   },
