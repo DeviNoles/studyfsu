@@ -22,19 +22,9 @@ import { Card, ListItem, Button, Icon } from 'react-native-elements'
 var image1 = require('../images/fsu.png')
 
 const numColumns = 2
-const formatData = (data, numColumns) => {
-  const numberOfFullRows = Math.floor(data.length / numColumns);
-
-  let numberOfElementsLastRow = data.length - (numberOfFullRows * numColumns);
-  while (numberOfElementsLastRow !== numColumns && numberOfElementsLastRow !== 0) {
-    data.push({ key: `blank-${numberOfElementsLastRow}`, empty: true });
-    numberOfElementsLastRow++;
-  }
-
-  return data;
-};
 
 
+var data = [];
 var newMatches = [{
   "id": 1,
   "first_name": "Sarah",
@@ -89,32 +79,50 @@ export default class Chat extends Component {
     this.state = {
       dataSource: ds.cloneWithRows(newMatches),
       convoData: ds.cloneWithRows(newMatches),
+      loaded: false
     }
-    this.createChat = this.createChat.bind(this)
   }
 
-  componentWillMount(){
-    this.getCurrentUser(this.getMatched);
+  async componentWillMount(){
+    await this.getCurrentUser(this.getMatched);
+    this.setstate({loaded: true})
+
+
   }
+
   async getCurrentUser(callback){
     var user = firebase.auth().currentUser;
     if (user) {
       // User is signed in.
-      await this.setState({currentUser: user.uid})
-      callback();
-      return user.uid
+      this.setState({currentUser: user.uid})
+      await callback();
     }
+
   else {
   // No user is signed in.
   console.log('ERROR!')
   }
 }
-getMatched = ()=>{
+
+formatData = (data, numColumns) => {
+  const numberOfFullRows = Math.floor(data.length / numColumns);
+
+  let numberOfElementsLastRow = data.length - (numberOfFullRows * numColumns);
+  while (numberOfElementsLastRow !== numColumns && numberOfElementsLastRow !== 0) {
+    data.push({ key: `blank-${numberOfElementsLastRow}`, empty: true });
+    numberOfElementsLastRow++;
+  }
+
+  return data;
+};
+async getMatched (callback){
 //function for getting chats
+
     var ref = firebase.database().ref('matched/' + this.state.currentUser)
     var cur = this.state.currentUser
     var currentName;
     var currentMajor;
+
     ref.on('value', function(snapshot) {
     snapshot.forEach((childid)=>{ //for each user that ive liked
       var childref = firebase.database().ref('matched/' + childid.key) // reference to the matched i want to check
@@ -126,67 +134,34 @@ getMatched = ()=>{
              if(childchildid.key == cur){
               firebase.database().ref('users/' + childid.key).once('value').then(function(snapshot) {
               snapshot.forEach((thischild)=>{
-
                 if(thischild.key=='name'){
-                  console.log('Matched User Name ' + thischild.val()) // what i want to pass into the message object array
+
                   currentName = thischild.val()
+                  data.push({
+                    key: currentName
+                  });
+                   // what i want to pass into the message object array
+                   console.log('CURRENT TNAME' + currentName);
                 }
 
                 else if(thischild.key=='major'){
                   console.log('Matched Major Name ' + thischild.val()) // what i want to pass into the message object array
                   currentMajor = thischild.val()
                 }
-
-                convoList.push({
-                  "id": 0,
-                  "first_name": currentName
-                });
-
               })
             })
              }
-           })
+           }) // end of foreach
           }
       });
-
 })
 })
 }
-  eachPic(x){ //live match screen
-    return(
-      <TouchableOpacity style={{alignItems:'center'}}>
-      <Image source = {x.image} style={{width:70, height:70, borderRadius:35, margin:10}} />
-      <Text style={{fontWeight:'600', color:'#444'}}>{x.first_name}</Text>
-      </TouchableOpacity>
-      )}
 
-
-  createChat = function (name) {
-          return (
-            <View>
-            <Card title="CARD WITH DIVIDER">
-
-              <View>
-
-                <Text>{name}</Text>
-              </View>
-            </Card>
-            </View>
-          )
-      }
-
-
-renderCards = ()=>{
-
-  for (var key in newMatches) {
-    console.log("User " + newMatches[key]['first_name']); // "User john is #234"
-return(
-  this.createChat(newMatches[key]['first_name'])
-
-  )
+getMatched.then(){
+  this.render();
 }
 
-}
 renderItem = ({ item, index }) => {
   if (item.empty === true) {
     return <View style={[styles.item, styles.itemInvisible]} />;
@@ -200,26 +175,44 @@ renderItem = ({ item, index }) => {
   );
 };
 
-render() {
-  const data = [
-    { key: 'A' }, { key: 'B' }, { key: 'C' }, { key: 'D' }, { key: 'E' }, { key: 'F' }, { key: 'G' }, { key: 'H' }, { key: 'I' }, { key: 'J' },
-    // { key: 'K' },
-    // { key: 'L' },
-  ];
+
+content(){
   return (
+    <View style={styles.background}>
     <FlatList
-      data={data}
+      data={this.formatData(data, numColumns)}
       style={styles.container}
       renderItem={this.renderItem}
       numColumns={numColumns}
     />
+    </View>
   );
+}
+
+emptyContent(){
+  return(
+    <View>
+    <Text> Nothing Loaded Yet</Text>
+    </View>
+  )
+}
+
+
+render() {
+  return (
+<View>
+    {this.state.loaded ? this.content() : this.emptyContent()}
+</View>
+  )
 }
 }
 
 const styles = StyleSheet.create({
 container: {
   marginVertical: 20,
+},
+background:{
+  backgroundColor: '#CEB888'
 },
 item: {
   backgroundColor: '#4D243D',
