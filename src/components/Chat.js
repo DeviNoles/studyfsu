@@ -23,20 +23,9 @@ var image1 = require('../images/fsu.png')
 
 const numColumns = 2
 
-var dat = [{
-  key: 'wtadsadsadf',
-},
-{
-  key: 'wgdslkjsgtf',
-},
-{
-  key: 'wtadfkjsadkjjjf',
-},
+var data = [{key: 'DontUseThiss'}]
 
 
-
-]
-var data = [];
 var newMatches = [{
   "id": 1,
   "first_name": "Sarah",
@@ -164,6 +153,7 @@ getMatched = (callback)=>{
                    if(index==(snapshot.numChildren()-1)){
                      console.log('INDEX IS : ' + index)
                      console.log(snapshot.numChildren()-1)
+                     console.log(data[0]['key'])
                      this.setState({loaded: true})
 
                    }
@@ -189,13 +179,16 @@ renderItem = ({ item, index }) => {
   if (item.empty === true) {
     return <View style={[styles.item, styles.itemInvisible]} />;
   }
-  return (
-    <View
-      style={styles.item}
-    >
-      <Text style={styles.itemText}>{item.key}</Text>
-    </View>
-  );
+  else if(item.key != 'DontUseThiss'){
+    return (
+      <View
+        style={styles.item}
+      >
+        <Text style={styles.itemText}>{item.key}</Text>
+      </View>
+    );
+  }
+
 };
 
 
@@ -204,7 +197,7 @@ content(){
   return (
     <View style={styles.background}>
     <FlatList
-      data={this.formatData(dat, numColumns)}
+      data={this.formatData(data, numColumns)}
       style={styles.container}
       renderItem={this.renderItem}
       numColumns={numColumns}
