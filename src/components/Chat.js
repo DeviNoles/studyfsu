@@ -23,7 +23,19 @@ var image1 = require('../images/fsu.png')
 
 const numColumns = 2
 
+var dat = [{
+  key: 'wtadsadsadf',
+},
+{
+  key: 'wgdslkjsgtf',
+},
+{
+  key: 'wtadfkjsadkjjjf',
+},
 
+
+
+]
 var data = [];
 var newMatches = [{
   "id": 1,
@@ -85,23 +97,26 @@ export default class Chat extends Component {
 
   async componentWillMount(){
     await this.getCurrentUser(this.getMatched);
-    this.setstate({loaded: true})
-
-
+    console.log('MOUNTED AND DONE')
+      this.setState({loaded: true})
   }
 
   async getCurrentUser(callback){
     var user = firebase.auth().currentUser;
     if (user) {
       // User is signed in.
-      this.setState({currentUser: user.uid})
+
+      await this.setState({currentUser: user.uid})
       await callback();
     }
-
   else {
   // No user is signed in.
   console.log('ERROR!')
   }
+}
+
+componentDidMount(){
+
 }
 
 formatData = (data, numColumns) => {
@@ -115,15 +130,16 @@ formatData = (data, numColumns) => {
 
   return data;
 };
-async getMatched (callback){
+getMatched = (callback)=>{
 //function for getting chats
 
     var ref = firebase.database().ref('matched/' + this.state.currentUser)
     var cur = this.state.currentUser
     var currentName;
     var currentMajor;
-
+    var index = 1;
     ref.on('value', function(snapshot) {
+
     snapshot.forEach((childid)=>{ //for each user that ive liked
       var childref = firebase.database().ref('matched/' + childid.key) // reference to the matched i want to check
       console.log('Matched Users' + childid.key)
@@ -135,13 +151,23 @@ async getMatched (callback){
               firebase.database().ref('users/' + childid.key).once('value').then(function(snapshot) {
               snapshot.forEach((thischild)=>{
                 if(thischild.key=='name'){
-
+                  if(index==snapshot.length-1){
+                    console.log('LAST ELEMENT IS: ' + thischild.val())
+                  }
                   currentName = thischild.val()
                   data.push({
                     key: currentName
                   });
                    // what i want to pass into the message object array
-                   console.log('CURRENT TNAME' + currentName);
+                   console.log('CURRENT NAME' + currentName);
+
+                   if(index==(snapshot.numChildren()-1)){
+                     console.log('INDEX IS : ' + index)
+                     console.log(snapshot.numChildren()-1)
+                     this.setState({loaded: true})
+
+                   }
+                     index++;
                 }
 
                 else if(thischild.key=='major'){
@@ -158,9 +184,6 @@ async getMatched (callback){
 })
 }
 
-getMatched.then(){
-  this.render();
-}
 
 renderItem = ({ item, index }) => {
   if (item.empty === true) {
@@ -177,10 +200,11 @@ renderItem = ({ item, index }) => {
 
 
 content(){
+
   return (
     <View style={styles.background}>
     <FlatList
-      data={this.formatData(data, numColumns)}
+      data={this.formatData(dat, numColumns)}
       style={styles.container}
       renderItem={this.renderItem}
       numColumns={numColumns}
@@ -218,7 +242,7 @@ item: {
   backgroundColor: '#4D243D',
   alignItems: 'center',
   justifyContent: 'center',
-  flex: 1,
+  flex: 2,
   margin: 5,
   height: Dimensions.get('window').width / numColumns, // approximate a square
 },
