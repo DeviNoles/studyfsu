@@ -99,19 +99,37 @@ getRandomMajor = () =>{
 }
 
 matched = ()=>{
-  db.ref('matched/' + this.state.currentUser).update({
-  [randomUser]: true
-  });
+  db.ref('liked/' + this.state.currentUser).update({
+    [randomUser]: true
+    });
   //check if match
-  firebase.database().ref(`matched/${this.state.randomID}/${this.state.currentUser}`).once("value", snapshot => {
+  db.ref(`liked/${this.state.randomID}/${this.state.currentUser}`).once("value", snapshot => {
      if (snapshot.exists())
      {
-        console.log("MATCHED ON BOTH SIDES");
+       Alert.alert(
+          'MATCHED ON BOTH SIDES',
+          'MATCHED ON BOTH SIDES',
+          [
+            {text: 'OK', onPress: () => console.warn('MATCHED ON BOTH SIDES'), style: 'cancel'}
+
+          ]
+        );
         const email = snapshot.val();
+        db.ref('matched/' + this.state.currentUser).update({
+        [randomUser]: true
+        });
+
+        db.ref('matched/' + this.state.randomID).update({
+        [this.state.currentUser]: true
+        });
+
         firebase.database().ref(`possible_matches/${this.state.currentUser}/${this.state.randomID}`).remove();
 
       }
-      else{
+      else{//not MATCHED
+        db.ref('liked/' + this.state.currentUser).update({
+          [randomUser]: true
+        });
         firebase.database().ref(`possible_matches/${this.state.currentUser}/${this.state.randomID}`).remove();
 
       }
