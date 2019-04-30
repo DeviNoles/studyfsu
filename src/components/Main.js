@@ -6,6 +6,7 @@ import Home from './Home';
 import Card from './Card'
 import ChatScreen from './ChatScreen'
 import Profile from './Profile'
+import ChatScreen2 from './ChatScreen2'
 import RegistrationScreen from './RegistrationScreen';
 import firebase from "firebase";
 
@@ -54,7 +55,14 @@ Profile: {
    navigationOptions: {
   header: null,
 },},
-  },
+
+Chat: {
+  screen: ChatScreen2,
+  navigationOptions: {
+ header: null,
+},},
+
+}, //end of routing
 
   {
     initialRouteName: 'Login',

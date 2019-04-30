@@ -21,6 +21,18 @@ export default class Home extends React.Component {
   super(props);
 
   }
+
+  async componentWillMount() {
+    await this.getCurrentUser()
+  }
+
+  async getCurrentUser(){
+   var user = firebase.auth().currentUser;
+  await this.setState({currentUser: user.uid})
+
+
+}
+
   viewStyle() {
     return {
       flex: 1,
@@ -37,6 +49,7 @@ export default class Home extends React.Component {
         loop={false}
         showsPagination={true}
         index={1}>
+
         <View style={this.viewStyle()}>
           <Card/>
         </View>
@@ -44,13 +57,11 @@ export default class Home extends React.Component {
 
           <View style={styles.profile}>
             <Profile/>
-
           </View>
 
 
-
         <View>
-          <Chat/>
+        <Chat user={this.state.currentUser}/>
         </View>
 
 
