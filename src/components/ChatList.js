@@ -89,6 +89,7 @@ componentWillMount() {
         </View>
       </Modal>
 
+      
          <FlatList
            data={this.formatData(this.props.nameArray, numColumns)}
            style={styles.container}
@@ -107,7 +108,7 @@ const styles = StyleSheet.create({
     marginVertical: 100,
   },
   item: {
-    backgroundColor: '#4D243D',
+    backgroundColor: 'rgb(120,47,65)',
     alignItems: 'center',
     justifyContent: 'center',
     flex: 1,

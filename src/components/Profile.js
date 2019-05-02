@@ -113,7 +113,7 @@ toggleEditModal = () =>{
       <TouchableOpacity
                style={styles.classesbutton}
                onPress={() => this.toggleModal()}>
-              <Text style={styles.buttonText}>
+               <Text style={{color: 'white'}}>
                Classes
               </Text>
         </TouchableOpacity>
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     color:'white !important'
   },
   profile:{
-    backgroundColor: 'rgb(120,47,65)',
+
     height: 300
   },
   bio:{
@@ -211,7 +211,8 @@ const styles = StyleSheet.create({
         marginTop: 10,
         paddingTop: 10,
         paddingBottom: 10,
-        backgroundColor: 'green',
+        marginRight: 10,
+        backgroundColor: 'rgb(120,47,65)',
         borderRadius: 10,
         borderColor: 'white',
 

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, FlatList, ActivityIndicator } from "react-native";
+import { View, Text, FlatList, ActivityIndicator, StyleSheet } from "react-native";
 import { List, ListItem, SearchBar } from "react-native-elements";
 import firebase from "firebase"
 import ChatList from "./ChatList"
@@ -66,7 +66,7 @@ export default class Chat extends Component{
 
     }
 
-
+    
 
     render() {
       if (this.state.loading == true) {

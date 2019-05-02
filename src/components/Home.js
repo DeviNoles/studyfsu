@@ -47,7 +47,7 @@ export default class Home extends React.Component {
     return (
       <Swiper
         loop={false}
-        showsPagination={true}
+        showsPagination={false}
         index={1}>
 
         <View style={this.viewStyle()}>
@@ -60,7 +60,7 @@ export default class Home extends React.Component {
           </View>
 
 
-        <View>
+        <View style={styles.profile}>
         <Chat user={this.state.currentUser}/>
         </View>
 
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
   },
   profile:{
     flex: 1,
-    backgroundColor: 'rgb(120,47,65)',
+    backgroundColor: 'rgb(206,184,136)',
     height: 300
   },
   bio:{

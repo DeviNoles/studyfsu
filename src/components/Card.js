@@ -86,6 +86,8 @@ setData = () => {
 // do some stuff once
   this.setState({randomName: data.val().name})
   this.setState({randomMajor: data.val().major})
+  this.setState({randomAge: data.val().age})
+  this.setState({randomBio: data.val().bio})
 });
 console.log('Random name:' + this.state.randomName)
 
@@ -105,6 +107,14 @@ getRandomName = () =>{
 
 getRandomMajor = () =>{
   return this.state.randomMajor
+}
+
+getRandomAge = () =>{
+  return this.state.randomAge
+}
+
+getRandomBio = () =>{
+  return this.state.randomBio
 }
 
 matched = ()=>{
@@ -186,7 +196,7 @@ decline = ()=>{
 
       <View style={[styles.row, {marginTop:15}]}>
       <Text style = {{fontSize:19, fontWeight:'400'}}>{this.getRandomName()} </Text>
-      <Text style={{fontSize:21, fontWeight:'300', marginBottom:-2}}>23</Text>
+      <Text style={{fontSize:21, fontWeight:'300', marginBottom:-2}}>{this.getRandomAge()}</Text>
       </View>
       <View style={styles.row}>
       <Text style={{color:'#444', fontSize:15}}>{this.getRandomMajor()}</Text>
@@ -195,7 +205,7 @@ decline = ()=>{
       <Text style={{color:'#777', fontSize:11}}>less than a mile away</Text>
       </View>
       <View style={styles.description}>
-      <Text style={{color:'#555'}}>BIO</Text>
+      <Text style={{color:'#555'}}>{this.getRandomBio()}</Text>
       </View>
 
 
@@ -205,7 +215,7 @@ decline = ()=>{
 
       <Button
    onPress={() => this.matched()}
-   title="Match"
+   title="Like"
    color="#841584"
  />
     <Button

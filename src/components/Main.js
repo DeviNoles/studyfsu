@@ -53,13 +53,15 @@ Profile: {
  Registration: {
    screen: RegistrationScreen,
    navigationOptions: {
-  header: null,
+     headerStyle: {
+     backgroundColor: 'rgb(120,47,65)',
+   },
 },},
 
 Chat: {
   screen: Chat,
   navigationOptions: {
- header: null,
+ header: 'null',
 },},
 
 Message: {
