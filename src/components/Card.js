@@ -17,18 +17,27 @@ export default class Card extends Component {
       currentUser: this.getUserID(),
       randomMajor: null,
       randomName: null,
-      randomID: null
+      randomID: null,
+      myName: null,
+      myMajor: null
     }
 
   }
   regLogin(screen){
     this.props.navigation.navigate('Login')
   }
-  getUserID(){
+getUserID(){
     var user = firebase.auth().currentUser;
     if (user) {
       // User is signed in.
-      console.log(user.email)
+      var ref = db.ref('users/' + user.uid);
+      ref.on("value", (data) =>{
+  // do some stuff once
+      this.setState({currentID: user.uid})
+      this.setState({myName: data.val().name})
+      this.setState({myMajor: data.val().major})
+
+  });
       return user.uid
     }   else {
   // No user is signed in.
@@ -114,10 +123,34 @@ matched = ()=>{
 
           ]
         );
-        const email = snapshot.val();
+
+
+
+
+    db.ref('nameArray/' + this.state.currentUser).update({
+    [this.state.randomName]: true
+    });
+
+    db.ref('majorArray/' + this.state.currentUser).update({
+    [this.state.randomMajor]: true
+    });
+
+
+    db.ref('nameArray/' + this.state.randomID).update({
+    [this.state.myName]: true
+    });
+
+    db.ref('majorArray/' + this.state.randomID).update({
+    [this.state.myMajor]: true
+    });
+
+
+
         db.ref('matched/' + this.state.currentUser).update({
         [randomUser]: true
         });
+
+
 
         db.ref('matched/' + this.state.randomID).update({
         [this.state.currentUser]: true

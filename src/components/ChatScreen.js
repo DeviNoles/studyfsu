@@ -1,293 +1,111 @@
-import React, { Component } from 'react';
-import {
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import Dimensions from 'Dimensions';
+import { Avatar } from 'react-native-elements';
+import {StyleSheet,View,TextInput, TouchableOpacity, Text, StatusBar, Alert} from 'react-native';
+import{Container, Content,Header,Form,Input,Item,Button, Label} from 'native-base';
+import { GiftedChat } from 'react-native-gifted-chat';
+import firebase from "firebase";
 
-  StyleSheet,
-  Image,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  ScrollView,
-  ListView,
-  View
-} from 'react-native';
-import firebase from "firebase"
-import Nav from './global-widgets/nav'
-import SwipeCards from 'react-native-swipe-cards';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import Iconz from 'react-native-vector-icons/Ionicons';
+var auth = firebase.auth();
+var database = firebase.database();
+var firestore = firebase.storage()
 
-var image1 = require('../images/fsu.png')
-
-
-
-var convos = [{
-  "id": 1,
-  "name": "Diane",
-  "message": "Suspendisse accumsan tortor quis turpis.",
-  "image" : image1
-}, {
-  "id": 2,
-  "name": "Lois",
-  "message": "Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl.",
-  "image" : image1
-}, {
-  "id": 3,
-  "name": "Mary",
-  "message": "Duis bibendum.",
-  "image" : image1
-}, {
-  "id": 4,
-  "name": "Susan",
-  "message": "Praesent blandit.",
-  "image" : image1
-}, {
-  "id": 5,
-  "name": "Betty",
-  "message": "Mauris enim leo, rhoncus sed, vestibulum, cursus id, turpis.",
-  "image" : image1
-}, {
-  "id": 6,
-  "name": "Deborah",
-  "message": "Aliquam sit amet diam in magna bibendum imperdiet.",
-  "image" : image1
-}, {
-  "id": 7,
-  "name": "Frances",
-  "message": "Phasellus sit amet erat.",
-  "image" : image1
-}, {
-  "id": 8,
-  "name": "Joan",
-  "message": "Vestibulum ante ipsum bilia Curae; Duis faucibus accumsan odio.",
-  "image" : image1
-}, {
-  "id": 9,
-  "name": "Denise",
-  "message": "Aliquam non mauris.",
-  "image" : image1
-}, {
-  "id": 10,
-  "name": "Rachel",
-  "message": "Nulla ac enim.",
-  "image" : image1
-}]
-
-var newMatches = [{
-  "id": 1,
-  "first_name": "Sarah",
-  "image" : image1
-}, {
-  "id": 2,
-  "first_name": "Pamela",
-  "image" : image1
-}, {
-  "id": 3,
-  "first_name": "Diana",
-  "image" : image1
-}, {
-  "id": 4,
-  "first_name": "Christina",
-  "image" : image1
-}, {
-  "id": 5,
-  "first_name": "Rebecca",
-  "image" : image1
-}, {
-  "id": 6,
-  "first_name": "Wanda",
-  "image" : image1
-}, {
-  "id": 7,
-  "first_name": "Sara",
-  "image" : image1
-}, {
-  "id": 8,
-  "first_name": "Judith",
-  "image" : image1
-}, {
-  "id": 9,
-  "first_name": "Ruby",
-  "image" : image1
-}, {
-  "id": 10,
-  "first_name": "Sandra",
-  "image" : image1
-}]
-
-var convoList = []
-
-var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-
-export default class ChatScreen extends Component {
-
+export default class Edit extends React.Component {
   constructor(props){
     super(props)
-    this.state = {
-      dataSource: ds.cloneWithRows(newMatches),
-      convoData: ds.cloneWithRows(convos),
-    }
+    this.state = ({
+      messages: ['yo'],
+    })
   }
 
-  componentWillMount(){
-    this.getCurrentUser(this.getMatched);
+  get ref() {
+  return firebase.database().ref('messages');
   }
-  async getCurrentUser(callback){
-    var user = firebase.auth().currentUser;
-    if (user) {
-      // User is signed in.
-      await this.setState({currentUser: user.uid})
-      callback();
-      return user.uid
-    }
-  else {
-  // No user is signed in.
-  console.log('ERROR!')
-  }
+// 2.
+on = callback =>
+    this.ref
+      .limitToLast(20)
+      .on('child_added', snapshot => callback(this.parse(snapshot)));
+// 3.
+parse = snapshot => {
+  // 1.
+  const { timestamp: numberStamp, text, user } = snapshot.val();
+  const { key: _id } = snapshot;
+  // 2.
+  const timestamp = new Date(numberStamp);
+  // 3.
+  const message = {
+    _id,
+    timestamp,
+    text,
+    user,
+  };
+ return message;
+};
+// 4.
+off() {
+  this.ref.off();
 }
-getMatched = ()=>{
-//function for getting chats
-    var ref = firebase.database().ref('matched/' + this.state.currentUser)
-    var cur = this.state.currentUser
-    var currentName;
-    var currentMajor;
-    ref.on('value', function(snapshot) {
-    snapshot.forEach((childid)=>{ //for each user that ive liked
-      var childref = firebase.database().ref('matched/' + childid.key) // reference to the matched i want to check
-      console.log('Matched Users' + childid.key)
-      childref.on("value", snapshot => {
-         if (snapshot.exists())
-         {
-           snapshot.forEach((childchildid)=>{
-             if(childchildid.key == cur){
-              firebase.database().ref('users/' + childid.key).once('value').then(function(snapshot) {
-              snapshot.forEach((thischild)=>{
 
-                if(thischild.key=='name'){
-                  console.log('Matched User Name ' + thischild.val()) // what i want to pass into the message object array
-                  currentName = thischild.val()
-                }
+componentWillMount(){
+  console.log('CHAG SCREEN MOUNTED')
 
-                else if(thischild.key=='major'){
-                  console.log('Matched Major Name ' + thischild.val()) // what i want to pass into the message object array
-                  currentMajor = thischild.val()
-                }
-
-                convoList.push({
-                  "id": 0,
-                  "first_name": currentName
-                });
-
-              })
-            })
-             }
-           })
-          }
-      });
-
-//////////////////
-
-})
-})
 }
-  eachPic(x){ //live match screen
-    return(
-      <TouchableOpacity style={{alignItems:'center'}}>
-      <Image source = {x.image} style={{width:70, height:70, borderRadius:35, margin:10}} />
-      <Text style={{fontWeight:'600', color:'#444'}}>{x.first_name}</Text>
-      </TouchableOpacity>
-      )}
 
+sendMessage = (message) =>{
+  this.state.messages.push(message)
 
-    convoRender(x){
-      return(
-              <TouchableOpacity style={{alignItems:'center', flexDirection:'row', marginTop:5, marginBottom:5, borderBottomWidth:1, borderColor:'#e3e3e3'}}>
-              <Image source = {x.image} style={{width:70, height:70, borderRadius:35, margin:10}} />
-              <View>
-              <Text style={{fontWeight:'600', color:'#111'}}>{x.name}</Text>
-              <Text
-              numberOfLines ={1}
-              style={{fontWeight:'400', color:'#888', width:200}}>{x.message}</Text>
-              </View>
-              </TouchableOpacity>)}
+}
 
 
   render() {
     return (
-      <View style = {{flex:1}}>
 
-      <ScrollView style={styles.container}>
-      <TextInput
-      style = {{height:50, }}
-      placeholder="Search"
-      />
-      <View style={styles.matches}>
-      <Text style = {{color:'#da533c', fontWeight:'600', fontSize:12}}>NEW MATCHES!</Text>
-      <ListView
-      horizontal={true}
-      scrollEnabled = {false}
-      showsHorizontalScrollIndicator = {false}
-    dataSource={this.state.dataSource}
-    pageSize = {5}
-      renderRow={(rowData) =>this.convoRender(rowData)}
-      />
-      </View>
-      <View style = {{margin:10}}>
-      <Text style = {{color:'#da533c', fontWeight:'600', fontSize:12}}>MESSAGES</Text>
-      <ListView
-      horizontal={false}
-      scrollEnabled = {false}
-      showsHorizontalScrollIndicator = {false}
-    dataSource={this.state.convoData}
-    pageSize = {5}
-      renderRow={(rowData) =>this.convoRender(rowData)}
-      />
-      </View>
 
-        </ScrollView>
-        </View>
-    )
+      <GiftedChat
+             messages={this.state.messages}
+             onSend = {(message) => this.sendMessage(message)}
+             user={{_id: this.props.user}}
+           />
+
+
+
+    );
+  }
 }
-}
-//onPress = {() => this.renderNope()}
+
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    padding: 10
+    padding: 20,
+    backgroundColor: 'rgb(120,47,65)',
+    paddingBottom: 100
   },
-  matches:{
-  borderTopWidth:1,
-  paddingTop:15,
-  borderTopColor:'#da533c',
-  borderBottomWidth:1,
-  paddingBottom:15,
-  borderBottomColor:'#e3e3e3'
+  input:{
+    height: 40,
+    backgroundColor: 'rgba(255,255,255,0.5)',
+    paddingHorizontal: 10,
+    marginBottom: 10,
+    marginVertical: 10,
   },
-  buttons:{
-    width:80,
-    height:80,
-    borderWidth:10,
-    borderColor:'#fff',
-    justifyContent:'center',
-    alignItems:'center',
-    borderRadius:40
+  ButtonContainer:{
+    backgroundColor: 'rgb(206,184,136)',
+    paddingVertical: 15,
+    marginBottom: 30,
+    justifyContent: 'center',
+    borderRadius: 180
   },
-  buttonSmall:{
-    width:50,
-    height:50,
-    borderWidth:10,
-    borderColor:'#e7e7e7',
-    justifyContent:'center',
-    alignItems:'center',
-    borderRadius:25
+  LoginButtonContainer:{
+    backgroundColor: 'rgb(206,184,136)',
+    paddingVertical: 15,
+    borderRadius: 180
   },
-   card: {
-    flex: 1,
+  ButtonText:{
+    textAlign:'center'
+  },
+  avi:{
     alignItems: 'center',
-    alignSelf:'center',
-    borderWidth:2,
-    borderColor:'#e3e3e3',
-    width: 350,
-    height: 420,
-  }
+    paddingVertical: 80
+  },
 
 });

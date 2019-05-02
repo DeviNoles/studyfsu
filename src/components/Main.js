@@ -5,8 +5,8 @@ import LoginScreen from './LoginScreen';
 import Home from './Home';
 import Card from './Card'
 import ChatScreen from './ChatScreen'
+import Chat from './Chat'
 import Profile from './Profile'
-import ChatScreen2 from './ChatScreen2'
 import RegistrationScreen from './RegistrationScreen';
 import firebase from "firebase";
 
@@ -57,10 +57,14 @@ Profile: {
 },},
 
 Chat: {
-  screen: ChatScreen2,
+  screen: Chat,
   navigationOptions: {
  header: null,
 },},
+
+Message: {
+  screen: ChatScreen,
+},
 
 }, //end of routing
 
@@ -71,10 +75,6 @@ Chat: {
 
 const RootContainer = createAppContainer(RootStackNavigator);
 export default class Main extends Component {
-
-
-
-
 
 
   static navigationOptions = {
