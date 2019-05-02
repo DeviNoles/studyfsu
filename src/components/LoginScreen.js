@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Dimensions from 'Dimensions';
-import {StyleSheet,View, Image, KeyboardAvoidingView} from 'react-native';
+import {StyleSheet,View, Image, KeyboardAvoidingView, Text} from 'react-native';
 import { NavigationActions } from 'react-navigation';
 
 import LoginForm from './LoginForm';
@@ -29,6 +29,7 @@ export default class LoginScreen extends Component {
       <View style={styles.container}>
       <View style={styles.LogoContainer}>
       <Image style={styles.Logo} source={require('../images/fsu.png')}/>
+    <Text style={styles.title}>MeetFSU</Text>
       </View>
 
       <LoginForm
@@ -55,5 +56,10 @@ const styles = StyleSheet.create({
   Logo: {
     width: 100,
     height: 100
+  },
+  title:{
+    marginTop: 100,
+    color: 'white',
+    fontSize: 30
   }
 });

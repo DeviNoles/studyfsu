@@ -55,13 +55,26 @@ storage.child('images/' + user.uid).getDownloadURL().then((url) =>{
 
 updateUserInfo = () => {
 
-  database.ref('users/' + this.state.currentID).set({
-    name: this.state.currentFullName,
-    major: this.state.currentMajor,
-    email: this.state.currentEmail,
-    age: this.state.currentAge,
-    bio: this.state.currentBio
-  });
+  if(this.state.currentBio == null || this.sttatet.currentAge == null){
+    Alert.alert(
+       'Complete all fields',
+       'Press Behind Modal to Exit',
+       [
+         {text: 'OK', onPress: () => console.warn('Profile Updated'), style: 'cancel'}
+
+       ]
+     );
+  }
+  else{
+    database.ref('users/' + this.state.currentID).set({
+      name: this.state.currentFullName,
+      major: this.state.currentMajor,
+      email: this.state.currentEmail,
+      age: this.state.currentAge,
+      bio: this.state.currentBio
+    });
+  }
+
 
   this.updateImage()
 

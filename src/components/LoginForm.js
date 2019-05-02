@@ -134,7 +134,7 @@ toggleModal = () =>{
 const styles = StyleSheet.create({
   container: {
     padding: 20,
-    marginTop: 150,
+    marginTop: 20,
     backgroundColor: 'rgb(120,47,65)',
     paddingBottom: 100,
     flexDirection: 'column',

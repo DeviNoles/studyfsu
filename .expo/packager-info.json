@@ -3,7 +3,7 @@
   "expoServerPort": null,
   "packagerPort": null,
   "packagerPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null
+  "expoServerNgrokUrl": "https://5g-ytc.devinm4.studyfsu.exp.direct",
+  "packagerNgrokUrl": "https://packager.5g-ytc.devinm4.studyfsu.exp.direct",
+  "ngrokPid": 14554
 }

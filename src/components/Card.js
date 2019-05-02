@@ -6,7 +6,7 @@ import firebase from "firebase";
 import AddClass from './AddClass';
 var db = firebase.database();
 var randomUser
-
+  var empty = " "
 var {height, width} = Dimensions.get('window');
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Iconz from 'react-native-vector-icons/Ionicons';
@@ -110,10 +110,17 @@ getRandomMajor = () =>{
 }
 
 getRandomAge = () =>{
+  if(this.state.randomBio == null){
+    return empty
+  }
   return this.state.randomAge
 }
 
 getRandomBio = () =>{
+
+  if(this.state.randomBio == null){
+    return empty
+  }
   return this.state.randomBio
 }
 
@@ -202,7 +209,6 @@ decline = ()=>{
       <Text style={{color:'#444', fontSize:15}}>{this.getRandomMajor()}</Text>
       </View>
       <View style={styles.row}>
-      <Text style={{color:'#777', fontSize:11}}>less than a mile away</Text>
       </View>
       <View style={styles.description}>
       <Text style={{color:'#555'}}>{this.getRandomBio()}</Text>
