@@ -55,7 +55,7 @@ storage.child('images/' + user.uid).getDownloadURL().then((url) =>{
 
 updateUserInfo = () => {
 
-  if(this.state.currentBio == null || this.sttatet.currentAge == null){
+  if(this.state.currentBio == null || this.state.currentAge == null){
     Alert.alert(
        'Complete all fields',
        'Press Behind Modal to Exit',

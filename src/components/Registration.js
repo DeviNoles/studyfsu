@@ -82,13 +82,12 @@ signUpUser = (name, major, email, password, passwordConfirm, callback) => {
         name: name,
         major: major,
         email: email,
-        password: password,
         });
         this.setState({currentID: data.user.uid})
         console.log('ID IS: ' + this.state.currentID)
 
         callback()
-        data.user.sendEmailVerification(); 
+        data.user.sendEmailVerification();
         this.getAlertWithParams('Account Created', 'Please Log In')
     })
     .catch(function(error) {

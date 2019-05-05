@@ -8,13 +8,13 @@
       "ios",
       "android"
     ],
-    "version": "1.0.0",
+    "version": "1.0.6",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#CEB888"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -24,7 +24,7 @@
     ],
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "io.github.devinm6"
+      "bundleIdentifier": "io.github.devinq"
     }
   }
 }
